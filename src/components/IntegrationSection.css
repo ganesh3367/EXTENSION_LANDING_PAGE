@@ -1,0 +1,303 @@
+.integration-section {
+    background-color: var(--bg-primary);
+    /* #0B0B0B */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 0;
+}
+
+.integration-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6rem;
+}
+
+/* Left Content */
+.int-left-content {
+    flex: 1;
+    max-width: 500px;
+    z-index: 2;
+}
+
+.int-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    /* Accent color */
+    margin-bottom: 2rem;
+    display: inline-block;
+    padding: 4px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.int-title {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+
+.int-desc {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/* Right Content - The Editor Mock */
+.int-right-content {
+    flex: 1.5;
+    position: relative;
+    perspective: 1000px;
+    /* For 3D Tilt */
+}
+
+.vscode-mock {
+    width: 100%;
+    height: 550px;
+    background: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+        0 40px 80px -10px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.08);
+    /* Inner light border */
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+/* Noise overlay */
+.vscode-mock::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Glass Highlight Top Edge */
+.vscode-highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+    z-index: 11;
+}
+
+/* Structure */
+.vscode-header {
+    height: 40px;
+    background: #252526;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 0.8rem;
+    color: #ccc;
+    border-bottom: 1px solid #111;
+}
+
+.win-controls {
+    display: flex;
+    gap: 8px;
+    margin-right: 2rem;
+}
+
+.win-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.7;
+}
+
+.tabs-container {
+    display: flex;
+    height: 100%;
+}
+
+.tab {
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    background: #1e1e1e;
+    color: #fff;
+    border-right: 1px solid #111;
+    height: 100%;
+    position: relative;
+}
+
+.tab.active::top {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #007fd4;
+}
+
+.vscode-body {
+    display: flex;
+    height: calc(100% - 40px);
+}
+
+.vscode-sidebar {
+    width: 60px;
+    /* Simplified sidebar */
+    background: #333333;
+    border-right: 1px solid #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    gap: 1.5rem;
+}
+
+.sidebar-icon {
+    width: 24px;
+    height: 24px;
+    opacity: 0.5;
+    background: #858585;
+    mask-size: contain;
+    -webkit-mask-size: contain;
+}
+
+/* Simplified via box */
+.sidebar-icon.active {
+    opacity: 1;
+    -webkit-mask-image: none;
+    background: #fff;
+    border-left: 2px solid #fff;
+}
+
+.vscode-editor-area {
+    flex: 1;
+    background: #1e1e1e;
+    padding: 1.5rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #d4d4d4;
+    position: relative;
+}
+
+.line-numbers {
+    position: absolute;
+    left: 1rem;
+    top: 1.5rem;
+    color: #858585;
+    text-align: right;
+    width: 20px;
+    font-size: 13px;
+}
+
+.code-content {
+    margin-left: 2.5rem;
+}
+
+.code-row {
+    position: relative;
+    /* For highlighting */
+    padding-left: 4px;
+}
+
+/* Simulation of VSCode selection highlight */
+.code-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: -100px;
+    background: rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.code-row.highlighted::before {
+    opacity: 1;
+}
+
+/* Syntax */
+.k {
+    color: #569CD6;
+}
+
+/* keyword */
+.f {
+    color: #DCDCAA;
+}
+
+/* function */
+.s {
+    color: #CE9178;
+}
+
+/* string */
+.c {
+    color: #6A9955;
+}
+
+/* comment */
+.t {
+    color: #4EC9B0;
+}
+
+/* type/component */
+.v {
+    color: #9CDCFE;
+}
+
+/* variable/prop */
+
+/* Cursor */
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: #fff;
+    vertical-align: middle;
+    margin-left: 1px;
+}
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .integration-container {
+        flex-direction: column;
+        gap: 4rem;
+        padding: 0 2rem;
+    }
+
+    .int-left-content {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .int-title {
+        font-size: 3rem;
+    }
+
+    .vscode-mock {
+        height: 400px;
+    }
+}
