@@ -1,0 +1,386 @@
+.how-it-works {
+    position: relative;
+    background-color: var(--bg-primary);
+    /* #0B0B0B */
+    color: var(--text-primary);
+    overflow: hidden;
+    font-family: var(--font-family);
+}
+
+/* Background Texture for "Expensive" feel */
+.how-it-works::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Ambient Spotlights */
+.hiw-glow-spot {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: background 0.5s ease;
+}
+
+.hiw-pinned-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    /* Above texture */
+}
+
+/* Header */
+.hiw-header {
+    position: absolute;
+    top: 6vh;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10;
+    width: 100%;
+    padding: 0 1rem;
+    pointer-events: none;
+}
+
+.hiw-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.04em;
+    background: linear-gradient(180deg, #FFFFFF 0%, #777777 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hiw-subtitle {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+}
+
+/* Steps Wrapper */
+.hiw-steps-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5vh;
+    perspective: 2000px;
+}
+
+/* Steps */
+.hiw-step {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rem;
+    opacity: 0;
+    visibility: hidden;
+    will-change: transform, opacity;
+}
+
+.hiw-step-text {
+    flex: 1;
+    max-width: 500px;
+    text-align: left;
+    z-index: 2;
+}
+
+.hiw-step-visual {
+    flex: 1.2;
+    display: flex;
+    justify-content: center;
+    perspective: 1000px;
+    z-index: 2;
+}
+
+/* Text Styling */
+.step-label {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #fff;
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+}
+
+.step-heading {
+    font-size: 4.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #fff;
+}
+
+.step-description {
+    font-size: 1.4rem;
+    color: #999;
+    line-height: 1.6;
+    max-width: 90%;
+    font-weight: 300;
+}
+
+/* Visual Cards - Ultra Premium */
+.code-block-visual {
+    background: rgba(10, 10, 10, 0.85);
+    /* Slightly transparent */
+    backdrop-filter: blur(20px);
+    /* Glassmorphism */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* White border */
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    /* Top light highlight */
+    border-radius: 20px;
+    padding: 2.5rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.1rem;
+    width: 600px;
+    box-shadow:
+        0 40px 80px -20px rgba(0, 0, 0, 0.8),
+        /* Deep shadow */
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    /* Inner edge light */
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+/* Glow behind cards */
+.code-block-visual::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 60%);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+/* HTML Colors */
+.visual-html .tag {
+    color: #569CD6;
+}
+
+.visual-html .attr {
+    color: #9CDCFE;
+}
+
+.visual-html .val {
+    color: #CE9178;
+}
+
+.visual-html .text {
+    color: #D4D4D4;
+}
+
+/* VS Code Specific */
+.visual-vscode {
+    background: #1e1e1e;
+    /* Solid background for realism */
+    padding: 0;
+    overflow: hidden;
+    width: 650px;
+    box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.9);
+}
+
+.vscode-header {
+    background: #252526;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: center;
+    color: #999;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #111;
+    position: relative;
+}
+
+/* Traffic lights */
+.vscode-header::after {
+    display: none;
+    /* remove default centered text mimic */
+}
+
+.vscode-lights {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 6px;
+}
+
+.vscode-light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.l-red {
+    background: #FF5F56;
+}
+
+.l-yellow {
+    background: #FFBD2E;
+}
+
+.l-green {
+    background: #27C93F;
+}
+
+.vscode-body {
+    padding: 1rem;
+}
+
+.command-item {
+    padding: 14px 18px;
+    color: #cccccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    font-size: 1rem;
+}
+
+.command-item.active {
+    background: #04395e;
+    /* Premium blue */
+    color: #ffffff;
+    box-shadow: inset 3px 0 0 #007fd4;
+    /* Blue bar accent */
+}
+
+/* React Colors */
+.visual-react {
+    border-color: rgba(97, 218, 251, 0.2);
+}
+
+.visual-react::before {
+    background: radial-gradient(circle, rgba(97, 218, 251, 0.1) 0%, rgba(0, 0, 0, 0) 60%);
+}
+
+.visual-react .keyword {
+    color: #C586C0;
+}
+
+.visual-react .component {
+    color: #4EC9B0;
+}
+
+.visual-react .prop {
+    color: #9CDCFE;
+}
+
+.visual-react .jsx-tag {
+    color: #808080;
+}
+
+/* Progress Bar - Glowing Line */
+.hiw-progress-container {
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 400px;
+    width: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    /* Track */
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.hiw-progress-bar {
+    width: 100%;
+    height: 0%;
+    background: #FFFFFF;
+    /* White hot */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    /* Glow */
+    border-radius: 99px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .step-heading {
+        font-size: 3.5rem;
+    }
+
+    .code-block-visual {
+        width: 500px;
+    }
+
+    .hiw-step {
+        gap: 4rem;
+        width: 95%;
+    }
+}
+
+@media (max-width: 900px) {
+    .hiw-step {
+        flex-direction: column;
+        justify-content: center;
+        gap: 3rem;
+    }
+
+    .hiw-step-text {
+        text-align: center;
+        max-width: 100%;
+        margin-bottom: 0;
+    }
+
+    .step-heading {
+        font-size: 3rem;
+    }
+
+    .code-block-visual,
+    .visual-vscode {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .hiw-progress-container {
+        display: none;
+    }
+
+    .hiw-header {
+        top: 3rem;
+    }
+}
