@@ -1,0 +1,231 @@
+.live-transformation {
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    /* #0B0B0B */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2rem 0;
+    /* JS handles pinning spacing */
+    overflow: hidden;
+}
+
+/* Ambient Glow */
+.lt-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.lt-container {
+    width: 100%;
+    max-width: 1000px;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    padding: 0 1rem;
+}
+
+/* Header Area */
+.lt-header {
+    margin-bottom: 4rem;
+    position: relative;
+    display: inline-block;
+}
+
+.lt-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.7;
+}
+
+.lt-title {
+    font-size: 3rem;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.lt-divider {
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+    margin: 0 auto;
+}
+
+/* Editor Window */
+.editor-window {
+    background: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(20px);
+    /* Glass */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Premium Border */
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+        0 50px 100px -20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    /* Top highlight */
+    margin: 0 auto;
+    text-align: left;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    position: relative;
+    height: 450px;
+    /* Fixed height */
+    width: 100%;
+    max-width: 800px;
+    transform-style: preserve-3d;
+}
+
+.editor-header {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    /* To push filename to center or right */
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.window-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.filename {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.editor-body {
+    padding: 2.5rem;
+    position: relative;
+    height: 100%;
+}
+
+/* Code Layers */
+.code-layer {
+    position: absolute;
+    top: 2.5rem;
+    left: 2.5rem;
+    width: calc(100% - 5rem);
+    /* GSAP handles opacity/visibilty */
+}
+
+.code-line {
+    /* For line-by-line animation */
+    /* opacity: 0; set by GSAP */
+}
+
+/* Syntax Highlighting overrides */
+.tag {
+    color: #569CD6;
+}
+
+.attr {
+    color: #9CDCFE;
+}
+
+.val {
+    color: #CE9178;
+}
+
+.text {
+    color: #d4d4d4;
+}
+
+.comment {
+    color: #6a9955;
+}
+
+.keyword {
+    color: #C586C0;
+}
+
+.component {
+    color: #4EC9B0;
+}
+
+.prop {
+    color: #9CDCFE;
+}
+
+.brace {
+    color: #f1c40f;
+}
+
+/* 1-Click Badge */
+.lt-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    /* Hidden initially */
+    transform: translateY(10px);
+}
+
+.check-icon {
+    width: 14px;
+    height: 14px;
+    background: #27c93f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+@media (max-width: 768px) {
+    .lt-title {
+        font-size: 2rem;
+    }
+
+    .editor-window {
+        height: 350px;
+        font-size: 0.9rem;
+    }
+
+    .editor-body {
+        padding: 1.5rem;
+    }
+
+    .code-layer {
+        top: 1.5rem;
+        left: 1.5rem;
+        width: calc(100% - 3rem);
+    }
+}
