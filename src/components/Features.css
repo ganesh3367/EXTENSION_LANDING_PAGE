@@ -1,0 +1,56 @@
+.features-section {
+    padding: 8rem 0;
+    background-color: var(--bg-secondary);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    /* Init for GSAP */
+    transform: translateY(50px);
+}
+
+.feature-card:hover {
+    border-color: var(--text-secondary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    /* Note: The hover transform might conflict with GSAP if not careful. 
+     Best to animate inner content or wrapper, or ensure GSAP completes first. 
+     GSAP usually leaves inline styles. We can use clearProps: "all" or specific props. 
+     Or simpler: GSAP animates "from", so after animation it sits at 0 (relative).
+     Then CSS hover takes over if !important or if GSAP releases control.
+     Actually, better to use GSAP for hover too if we are strict, but CSS is smoother for simple hover.
+     I'll rely on CSS for hover, and clean up GSAP.
+  */
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.feature-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
