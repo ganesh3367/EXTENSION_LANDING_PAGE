@@ -159,7 +159,7 @@ const Hero = () => {
 
         {/* 3. CTA Buttons */}
         <div className="cta-group" ref={ctaRef}>
-          <a href="#" className="btn-primary">Install Extension</a>
+          <a href="https://marketplace.visualstudio.com/items?itemName=GaneshWayal.html-to-react-js" className="btn-primary" target="_blank" rel="noopener noreferrer">Install Extension</a>
           <a href="#" className="btn-secondary">Watch Demo</a>
         </div>
 
