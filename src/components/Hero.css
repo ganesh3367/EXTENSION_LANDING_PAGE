@@ -1,0 +1,324 @@
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #0B0B0B;
+    overflow: hidden;
+    padding-top: 80px;
+    /* Space from top */
+    perspective: 2000px;
+}
+
+/* Background Glow */
+.hero-glow-bg {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80vw;
+    height: 80vw;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 60%);
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-body {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* 1. Branding Row */
+.branding-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2.5rem;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 99px;
+    backdrop-filter: blur(10px);
+}
+
+.brand-icon {
+    font-size: 1.2rem;
+}
+
+.brand-name {
+    font-weight: 600;
+    color: #fff;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+}
+
+.brand-badge {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-left: 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 2. Headline */
+.hero-headline {
+    font-size: 5.5rem;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(180deg, #FFFFFF 0%, #AAAAAA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtext {
+    font-size: 1.25rem;
+    color: #B0B0B0;
+    max-width: 500px;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+}
+
+/* 3. CTA Buttons */
+.cta-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 6rem;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: #fff;
+    color: #000;
+    border: 1px solid #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 4. Hero Object (The Window) */
+.hero-object-container {
+    width: 100%;
+    max-width: 900px;
+    height: 480px;
+    position: relative;
+    perspective: 1000px;
+}
+
+.hero-window {
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow:
+        0 50px 100px -20px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    /* Top Highlight */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    /* Important for tilt */
+}
+
+/* Window Header */
+.window-header {
+    height: 48px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    justify-content: space-between;
+}
+
+.window-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.window-title {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Window Body */
+.window-body {
+    flex: 1;
+    display: flex;
+    position: relative;
+}
+
+.pane {
+    flex: 1;
+    padding: 2rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+    color: #ddd;
+    line-height: 1.6;
+    position: relative;
+}
+
+.pane-left {
+    background: rgba(0, 0, 0, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pane-right {
+    background: transparent;
+}
+
+/* Center Arrow */
+.convert-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: #0B0B0B;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Syntax Highlighting */
+.k {
+    color: #569CD6;
+}
+
+/* keyword */
+.t {
+    color: #4EC9B0;
+}
+
+/* tag/component */
+.s {
+    color: #CE9178;
+}
+
+/* string */
+.a {
+    color: #9CDCFE;
+}
+
+/* attr */
+.c {
+    color: #6A9955;
+}
+
+/* comment */
+.w {
+    color: #D4D4D4;
+}
+
+/* text */
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background: #fff;
+    vertical-align: sub;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero-headline {
+        font-size: 3.5rem;
+    }
+
+    .hero-window {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .pane {
+        padding: 1.5rem;
+    }
+
+    .pane-left {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .convert-arrow {
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 120px;
+    }
+
+    .hero-headline {
+        font-size: 2.8rem;
+    }
+
+    .hero-object-container {
+        height: auto;
+        transform: none !important;
+    }
+
+    /* Disable tilt on mobile */
+    .hero-window {
+        transform: none !important;
+    }
+}
