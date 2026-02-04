@@ -1,0 +1,273 @@
+.benefits-story {
+    background-color: var(--bg-primary);
+    /* #0B0B0B */
+    position: relative;
+    padding: 10rem 0;
+    /* More vertical space */
+    overflow: hidden;
+}
+
+.bs-container {
+    max-width: 1600px;
+    /* Wider for "bigger" feel */
+    margin: 0 auto;
+    padding: 0 4rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 6rem;
+    /* More separation */
+}
+
+/* Left Column (Sticky) */
+.bs-left-col {
+    width: 50%;
+    /* Wider column */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Was center - moving up */
+    padding-top: 4vh;
+    /* Extreme height - 4% from top */
+    position: relative;
+    z-index: 2;
+}
+
+/* Header Text */
+.bs-header {
+    margin-bottom: 1.5rem;
+    /* Tightened gap */
+    position: relative;
+    z-index: 2;
+}
+
+.bs-title {
+    font-size: 5rem;
+    /* MUCH BIGGER */
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    color: #fff;
+    letter-spacing: -0.03em;
+    /* "Alive" Gradient Text */
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bs-subtitle {
+    font-size: 1.5rem;
+    /* Bigger */
+    color: var(--text-secondary);
+    max-width: 90%;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+.bs-progress {
+    margin-top: 1.5rem;
+    font-family: 'Fira Code', monospace;
+    color: var(--accent);
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 99px;
+    display: inline-block;
+    backdrop-filter: blur(5px);
+}
+
+/* Preview Panel ( The "Image" ) */
+.bs-preview-box {
+    width: 100%;
+    height: 45vh;
+    /* Responsive height to fit screen */
+    min-height: 400px;
+    background: rgba(20, 20, 20, 0.7);
+    /* Slightly darker for contrast */
+    backdrop-filter: blur(30px);
+    /* Stronger glass */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    box-shadow:
+        0 50px 100px -20px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    /* "More Alive" Animation */
+    animation: float-preview 6s ease-in-out infinite;
+}
+
+/* Floating Animation */
+@keyframes float-preview {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotateX(2deg);
+    }
+}
+
+/* Glow behind preview */
+.bs-preview-box::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 60%);
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.bs-preview-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.2rem;
+    /* Bigger code text */
+    z-index: 1;
+}
+
+/* Right Column */
+.bs-right-col {
+    width: 45%;
+    padding-top: 25vh;
+    padding-bottom: 25vh;
+}
+
+.benefit-block {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    transition: all 0.5s ease;
+    border: 1px solid transparent;
+    opacity: 0.35;
+    /* Fading inactive blocks more */
+}
+
+.benefit-block.active {
+    opacity: 1;
+    transform: scale(1.02);
+    /* Pop out active block */
+}
+
+.benefit-icon {
+    width: 70px;
+    /* Bigger */
+    height: 70px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.benefit-title {
+    font-size: 2.5rem;
+    /* Bigger */
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: #fff;
+}
+
+.benefit-desc {
+    font-size: 1.3rem;
+    /* Bigger */
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Code Styles */
+.code-fix-row {
+    font-size: 1.3rem;
+    /* Bigger code */
+    margin-bottom: 1rem;
+}
+
+.arrow-right {
+    margin: 0 1.5rem;
+    color: var(--accent);
+    font-size: 1.5rem;
+}
+
+.time-val {
+    font-size: 5rem;
+    /* Massive Time */
+}
+
+.time-label {
+    font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .bs-title {
+        font-size: 4rem;
+    }
+
+    .bs-container {
+        gap: 3rem;
+        padding: 0 2rem;
+    }
+
+    .bs-preview-box {
+        height: 400px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .bs-container {
+        flex-direction: column;
+    }
+
+    .bs-left-col {
+        width: 100%;
+        height: auto;
+        margin-bottom: 6rem;
+        top: 0;
+    }
+
+    .bs-right-col {
+        width: 100%;
+        padding: 0;
+    }
+
+    .benefit-block {
+        opacity: 1;
+        margin-bottom: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .bs-preview-box {
+        display: block;
+        height: 350px;
+    }
+}
