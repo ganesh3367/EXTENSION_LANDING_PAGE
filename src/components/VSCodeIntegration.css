@@ -1,0 +1,118 @@
+.vscode-section {
+    padding: 8rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Center strictly */
+    background-color: var(--bg-primary);
+    overflow: hidden;
+}
+
+.vscode-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    gap: 4rem;
+}
+
+.vscode-text {
+    flex: 1;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.vscode-title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.vscode-desc {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.vscode-mockup {
+    flex: 1.5;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    overflow: hidden;
+    display: flex;
+    height: 500px;
+    transform: translateX(100px);
+    opacity: 0;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #252526;
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #bbb;
+}
+
+.file-list {
+    padding: 10px 0;
+}
+
+.file-item {
+    padding: 5px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.file-item.active {
+    background-color: #37373d;
+    color: #fff;
+}
+
+.editor-area {
+    flex: 1;
+    padding: 20px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: #d4d4d4;
+    position: relative;
+}
+
+.line {
+    line-height: 1.5;
+}
+
+.keyword {
+    color: #569cd6;
+}
+
+.comp {
+    color: #4ec9b0;
+}
+
+.str {
+    color: #ce9178;
+}
+
+@media (max-width: 900px) {
+    .vscode-container {
+        flex-direction: column;
+    }
+
+    .vscode-text {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+}
