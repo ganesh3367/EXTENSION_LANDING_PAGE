@@ -1,0 +1,119 @@
+.fold-marquee-section {
+    position: relative;
+    /* padding is handled by the pinned container usually, but let's keep some breathing room if needed */
+    background-color: transparent;
+    perspective: 1500px;
+    z-index: 5;
+    /* We will remove fixed padding because pinning might handle spacing */
+    height: 100vh;
+    /* Make it full height for the pin to look good */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fold-marquee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transform-style: preserve-3d;
+    width: 100%;
+}
+
+.fold-strip {
+    position: relative;
+    height: 15vh;
+    /* Responsive height */
+    min-height: 120px;
+    background: #111111;
+    /* Darker to match theme (was light) */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* Subtle border */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8);
+    /* Deeper shadow */
+    transition: background 0.3s ease;
+}
+
+/* Lighting / Sheen Effect */
+.fold-strip::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.03) 0%,
+            rgba(255, 255, 255, 0) 40%,
+            rgba(0, 0, 0, 0.2) 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* "Alive" active state highlighting (optional) */
+.fold-strip:hover {
+    background: #161616;
+}
+
+.fold-strip-inner {
+    width: 100%;
+    transform-style: preserve-3d;
+}
+
+.marquee-content {
+    display: flex;
+    white-space: nowrap;
+    will-change: transform;
+    /* Add slight blur for speed feel? No, keep it crisp "Clean React Output" */
+}
+
+.marquee-item {
+    font-size: 6rem;
+    font-weight: 800;
+    color: #333;
+    /* Dark Grey for standard text */
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-family: var(--font-family);
+    margin-right: 4rem;
+    /* Spacing between phrases */
+    padding: 0 1rem;
+    filter: blur(0.5px);
+    /* Cinematic softness */
+    /* Transition for "alive" feel */
+    transition: color 0.3s ease, filter 0.3s ease;
+}
+
+/* Dynamic highlighting logic */
+/* We want the "Center" or "Key" words to pop. 
+   Since we don't have JS detection for center, we'll use the rhythm again but with high contrast
+   matches the dark theme: White text vs Dark Grey text.
+*/
+.marquee-item:nth-child(even) {
+    color: #FFFFFF;
+    /* Pop with white */
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    filter: blur(0px);
+}
+
+.marquee-item:hover {
+    color: #fff;
+    filter: blur(0);
+}
+
+@media (max-width: 768px) {
+    .marquee-item {
+        font-size: 3.5rem;
+        margin-right: 2rem;
+    }
+
+    .fold-strip {
+        height: 12vh;
+    }
+}
