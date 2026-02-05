@@ -21,7 +21,7 @@ const IntegrationSection = () => {
 
         if (!section || !editor) return;
 
-        // 1. Entrance Animation (Cinematic)
+        // 1. Entrance Animation (Cinematic & Smooth)
         const entranceTl = gsap.timeline({
             scrollTrigger: {
                 trigger: section,
@@ -30,16 +30,23 @@ const IntegrationSection = () => {
             }
         });
 
-        // Set initial state
-        gsap.set(leftText, { x: -50, opacity: 0, filter: 'blur(10px)' });
-        gsap.set(editor, { x: 50, opacity: 0, filter: 'blur(10px)' });
+        // Initial States
+        gsap.set(leftText, { x: -60, opacity: 0, filter: 'blur(10px)' });
+        gsap.set(editor, { x: 60, opacity: 0, filter: 'blur(10px)', scale: 0.95 });
 
-        entranceTl.to(leftText, { x: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, ease: "power3.out" })
-            .to(editor, { x: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, ease: "power3.out" }, "-=1");
+        // Animation
+        entranceTl.to(leftText, {
+            x: 0, opacity: 1, filter: 'blur(0px)',
+            duration: 1.5, ease: "expo.out"
+        })
+            .to(editor, {
+                x: 0, opacity: 1, filter: 'blur(0px)', scale: 1,
+                duration: 1.5, ease: "expo.out"
+            }, "-=1.3"); // Staggered overlap
 
-        // 2. Parallax Depth (Scroll)
+        // 2. Parallax Depth on Scroll
         gsap.to(editor, {
-            y: -50,
+            y: -40,
             ease: "none",
             scrollTrigger: {
                 trigger: section,
@@ -49,19 +56,7 @@ const IntegrationSection = () => {
             }
         });
 
-        gsap.to(leftText, {
-            y: -20, // Slower than editor
-            ease: "none",
-            scrollTrigger: {
-                trigger: section,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        // 3. "Alive" Editor Animations (Looping)
-
+        // 3. "Alive" Loop
         // Blink Cursor
         gsap.to(cursor, {
             opacity: 0,
@@ -71,31 +66,39 @@ const IntegrationSection = () => {
             ease: "steps(1)"
         });
 
-        // Highlight Row Simulation
-        const aliveTl = gsap.timeline({ repeat: -1, repeatDelay: 2 });
-        // Highlight row 2
-        aliveTl.to(codeRows[2], { className: "code-row highlighted", duration: 0.1 })
-            .to(codeRows[2], { className: "code-row", duration: 0.1, delay: 0.8 }) // Un-highlight
-            // Highlight row 5
-            .to(codeRows[5], { className: 'code-row highlighted', duration: 0.1, delay: 1 })
-            .to(codeRows[5], { className: "code-row", duration: 0.1, delay: 1.5 });
+        // Gentle Floating (Idle)
+        gsap.to(editor, {
+            y: -10,
+            duration: 5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: 1.5
+        });
+
+        // Random Line Highlights
+        const highlightTl = gsap.timeline({ repeat: -1, repeatDelay: 3 });
+        highlightTl
+            .to(codeRows[2], { className: "code-row highlighted", duration: 0.1 })
+            .to(codeRows[2], { className: "code-row", duration: 0.1, delay: 0.8 })
+            .to(codeRows[5], { className: "code-row highlighted", duration: 0.1, delay: 1.5 })
+            .to(codeRows[5], { className: "code-row", duration: 0.1, delay: 1 });
 
 
-        // 4. Mouse Move Tilt (Premium)
+        // 4. Mouse Tilt (Premium Feeling)
         const handleMouseMove = (e) => {
-            if (window.innerWidth < 1024) return; // Desktop only
+            if (window.innerWidth < 1024) return;
             const { clientX, clientY } = e;
             const { innerWidth, innerHeight } = window;
 
-            // Normalize -1 to 1
             const xPos = (clientX / innerWidth - 0.5) * 2;
             const yPos = (clientY / innerHeight - 0.5) * 2;
 
             gsap.to(editor, {
-                rotationY: xPos * 6, // Max 6deg
-                rotationX: -yPos * 4, // Max 4deg inverted
-                boxShadow: `${-xPos * 20}px ${yPos * 20 + 40}px 80px -10px rgba(0,0,0,0.6)`, // Dynamic shadow
-                duration: 1,
+                rotationY: xPos * 4,
+                rotationX: -yPos * 3,
+                boxShadow: `${-xPos * 30}px ${yPos * 20 + 80}px 150px -30px rgba(0,0,0,0.8)`, // Dynamic shadow
+                duration: 1.2,
                 ease: "power2.out"
             });
         };
@@ -104,7 +107,7 @@ const IntegrationSection = () => {
 
         return () => {
             ScrollTrigger.getAll().forEach(t => t.kill());
-            aliveTl.kill();
+            highlightTl.kill();
             window.removeEventListener('mousemove', handleMouseMove);
         };
     }, []);
@@ -117,18 +120,17 @@ const IntegrationSection = () => {
 
                 {/* Left Text */}
                 <div className="int-left-content" ref={leftTextRef}>
-                    <span className="int-label">INTEGRATION</span>
+                    <div className="int-label">INTEGRATION</div>
                     <h2 className="int-title">Right where you work.</h2>
                     <p className="int-desc">
-                        No context switching. No copying and pasting from a web tool.
-                        Generate components directly inside VS Code with a single command.
+                        No context switching. No copying and pasting from web tools.
+                        Generate clean React components directly inside VS Code.
                     </p>
                 </div>
 
                 {/* Right Mock */}
                 <div className="int-right-content">
                     <div className="vscode-mock" ref={editorRef}>
-                        <div className="vscode-highlight"></div>
 
                         <div className="vscode-header">
                             <div className="win-controls">
@@ -137,8 +139,10 @@ const IntegrationSection = () => {
                                 <div className="win-dot" style={{ background: '#27c93f' }}></div>
                             </div>
                             <div className="tabs-container">
-                                <div className="tab active">Hero.jsx</div>
-                                <div className="tab" style={{ opacity: 0.6 }}>utils.js</div>
+                                <div className="tab active">
+                                    <span style={{ marginRight: 6 }}>⚛️</span> Hero.jsx
+                                </div>
+                                <div className="tab">utils.js</div>
                             </div>
                         </div>
 
@@ -151,7 +155,7 @@ const IntegrationSection = () => {
 
                             <div className="vscode-editor-area">
                                 <div className="line-numbers">
-                                    <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>
+                                    <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div>
                                 </div>
                                 <div className="code-content">
                                     <div className="code-row" ref={addToCodeRows}><span className="k">import</span> React <span className="k">from</span> <span className="s">'react'</span>;</div>
@@ -160,7 +164,7 @@ const IntegrationSection = () => {
                                     <div className="code-row" ref={addToCodeRows}>&nbsp;&nbsp;<span className="t">&lt;section</span> <span className="v">className</span>=<span className="s">"hero"</span><span className="t">&gt;</span></div>
                                     <div className="code-row" ref={addToCodeRows}>&nbsp;&nbsp;&nbsp;&nbsp;<span className="t">&lt;h1&gt;</span>{'{props.title}'}<span className="t">&lt;/h1&gt;</span></div>
                                     <div className="code-row" ref={addToCodeRows}>&nbsp;&nbsp;&nbsp;&nbsp;<span className="t">&lt;p&gt;</span></div>
-                                    <div className="code-row" ref={addToCodeRows}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start building with speed.</div>
+                                    <div className="code-row" ref={addToCodeRows}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generated directly in VS Code.</div>
                                     <div className="code-row" ref={addToCodeRows}>&nbsp;&nbsp;&nbsp;&nbsp;<span className="t">&lt;/p&gt;</span><span className="cursor" ref={cursorRef}></span></div>
                                     <div className="code-row" ref={addToCodeRows}>&nbsp;&nbsp;<span className="t">&lt;/section&gt;</span></div>
                                     <div className="code-row" ref={addToCodeRows}>);</div>
