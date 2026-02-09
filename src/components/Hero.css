@@ -1,327 +1,177 @@
-.hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* Hero.css */
+.hero-section {
+    padding: 14rem 0 10rem;
+    text-align: center;
     position: relative;
-    background-color: #0B0B0B;
     overflow: hidden;
-    padding-top: 80px;
-    /* Space from top */
-    perspective: 2000px;
+    /* Deep, rich background foundation */
+    background: radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.05), transparent 60%);
 }
 
-/* Background Glow */
-.hero-glow-bg {
+/* Premium Noise Texture */
+.hero-section::before {
+    content: '';
     position: absolute;
-    top: -20%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: overlay;
+}
+
+/* Ambient Glow Orb */
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: -30%;
     left: 50%;
     transform: translateX(-50%);
-    width: 80vw;
-    height: 80vw;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 60%);
-    border-radius: 50%;
+    width: 1200px;
+    height: 600px;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
     filter: blur(80px);
     z-index: 0;
     pointer-events: none;
 }
 
-.hero-body {
+.hero-container {
     position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 1200px;
-    padding: 0 2rem;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    gap: 2.5rem;
 }
 
-/* 1. Branding Row */
-.branding-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 2.5rem;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 99px;
-    backdrop-filter: blur(10px);
-}
-
-.brand-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    filter: drop-shadow(0 0 8px rgba(0, 216, 255, 0.5));
-}
-
-.brand-name {
-    font-weight: 600;
-    color: #fff;
-    font-size: 0.95rem;
-    letter-spacing: -0.01em;
-}
-
-.brand-badge {
-    font-size: 0.75rem;
-    color: #888;
+/* Eyebrow / Tag */
+.hero-eyebrow {
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding-left: 12px;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    /* JS fade in */
+    border: 1px solid var(--border);
+    padding: 0.5rem 1.2rem;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* 2. Headline */
-.hero-headline {
-    font-size: 5.5rem;
+/* Main Title */
+.hero-title {
+    font-size: clamp(4rem, 9vw, 6.5rem);
     font-weight: 800;
     line-height: 1.05;
-    letter-spacing: -0.03em;
-    color: #fff;
-    margin-bottom: 1.5rem;
-    background: linear-gradient(180deg, #FFFFFF 0%, #AAAAAA 100%);
+    letter-spacing: -0.04em;
+    margin: 0;
+    opacity: 0;
+    /* JS fade in */
+
+    /* Premium Gradient Text */
+    background: linear-gradient(180deg, #FFFFFF 20%, #777777 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow: 0 10px 40px rgba(255, 255, 255, 0.05);
 }
 
-.hero-subtext {
-    font-size: 1.25rem;
-    color: #B0B0B0;
-    max-width: 500px;
-    line-height: 1.6;
-    margin-bottom: 3rem;
+/* Subtitle */
+.hero-subtitle {
+    font-size: clamp(1.2rem, 2vw, 1.35rem);
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+    opacity: 0;
+    /* JS fade in */
+    font-weight: 400;
 }
 
-/* 3. CTA Buttons */
-.cta-group {
+/* CTA Group */
+.hero-cta-group {
     display: flex;
     gap: 1.5rem;
-    margin-bottom: 6rem;
+    margin-top: 1.5rem;
+    opacity: 0;
+    /* JS fade in */
 }
 
-.btn-primary,
-.btn-secondary {
-    padding: 14px 32px;
-    border-radius: 12px;
+.hero-btn {
+    padding: 1rem 2.5rem;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
+    border-radius: 99px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.btn-primary {
-    background: #fff;
-    color: #000;
-    border: 1px solid #fff;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+
+.hero-btn-wrapper {
+    display: inline-block;
+    padding: 2px;
+    /* Border width */
+    border-radius: 99px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+    position: relative;
 }
 
-.btn-primary:hover {
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
-    transform: translateY(-1px);
+.hero-btn-primary {
+    background-color: var(--bg-primary);
+    /* Dark inside */
+    color: var(--text-primary);
+    box-shadow: none;
+    /* Reset old shadow */
 }
 
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.hero-btn-primary:hover {
+    background-color: #1a1a1a;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+    transform: none;
+    /* transform handled by wrapper or different logic if needed, but here just color change */
+}
+
+.hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.03);
+    color: #FFFFFF;
+    border: 1px solid var(--border);
     backdrop-filter: blur(10px);
 }
 
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+.hero-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
 }
 
-/* 4. Hero Object (The Window) */
-.hero-object-container {
-    width: 100%;
-    max-width: 900px;
-    height: 480px;
-    position: relative;
-    perspective: 1000px;
-}
-
-.hero-window {
-    width: 100%;
-    height: 100%;
-    background: rgba(20, 20, 20, 0.6);
-    backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    box-shadow:
-        0 50px 100px -20px rgba(0, 0, 0, 0.8),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    /* Top Highlight */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transform-style: preserve-3d;
-    /* Important for tilt */
-}
-
-/* Window Header */
-.window-header {
-    height: 48px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
-    align-items: center;
-    padding: 0 1.5rem;
-    justify-content: space-between;
-}
-
-.window-dots {
-    display: flex;
-    gap: 8px;
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    opacity: 0.8;
-}
-
-.window-title {
-    font-family: monospace;
-    font-size: 0.85rem;
-    color: #666;
-}
-
-/* Window Body */
-.window-body {
-    flex: 1;
-    display: flex;
-    position: relative;
-}
-
-.pane {
-    flex: 1;
-    padding: 2rem;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.95rem;
-    color: #ddd;
-    line-height: 1.6;
-    position: relative;
-}
-
-.pane-left {
-    background: rgba(0, 0, 0, 0.2);
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.pane-right {
-    background: transparent;
-}
-
-/* Center Arrow */
-.convert-arrow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    background: #0B0B0B;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    color: #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-/* Syntax Highlighting */
-.k {
-    color: #569CD6;
-}
-
-/* keyword */
-.t {
-    color: #4EC9B0;
-}
-
-/* tag/component */
-.s {
-    color: #CE9178;
-}
-
-/* string */
-.a {
-    color: #9CDCFE;
-}
-
-/* attr */
-.c {
-    color: #6A9955;
-}
-
-/* comment */
-.w {
-    color: #D4D4D4;
-}
-
-/* text */
-
-.cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1.2em;
-    background: #fff;
-    vertical-align: sub;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .hero-headline {
-        font-size: 3.5rem;
-    }
-
-    .hero-window {
-        height: auto;
-        flex-direction: column;
-    }
-
-    .pane {
-        padding: 1.5rem;
-    }
-
-    .pane-left {
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .convert-arrow {
-        transform: translate(-50%, -50%) rotate(90deg);
-    }
-}
-
+/* Mobile Tweaks */
 @media (max-width: 768px) {
-    .hero {
-        padding-top: 120px;
+    .hero-section {
+        padding: 10rem 0 6rem;
     }
 
-    .hero-headline {
-        font-size: 2.8rem;
+    .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+        gap: 1rem;
     }
 
-    .hero-object-container {
-        height: auto;
-        transform: none !important;
+    .hero-btn {
+        width: 100%;
     }
 
-    /* Disable tilt on mobile */
-    .hero-window {
-        transform: none !important;
+    .hero-title {
+        font-size: 3.5rem;
     }
 }

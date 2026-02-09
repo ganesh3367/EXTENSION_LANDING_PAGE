@@ -176,7 +176,7 @@ const BenefitsStory = () => {
     };
 
     return (
-        <section className="benefits-story" ref={containerRef}>
+        <section className="benefits-story" id="benefits" ref={containerRef}>
             <div className="bs-container">
 
                 {/* Left Column (Sticky) */}

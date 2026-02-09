@@ -1,37 +1,52 @@
+/* CTA.css */
 .cta-section {
-    padding: 10rem 0 12rem;
+    padding: 12rem 0;
     text-align: center;
-    background: radial-gradient(circle at center, #1a1a1a 0%, #0b0b0b 70%);
+    position: relative;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
 }
 
 .cta-title {
-    font-size: 3.5rem;
+    font-size: clamp(2.5rem, 5vw, 4rem);
     margin-bottom: 3rem;
     font-weight: 800;
-    max-width: 800px;
+    max-width: 900px;
+    line-height: 1.1;
     margin-left: auto;
     margin-right: auto;
+    /* Gradient Text */
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
 }
 
 .cta-button-wrapper {
     display: inline-block;
-    padding: 20px;
-    /* Hit area for magnetic */
+    padding: 2px;
+    /* Border width */
+    border-radius: 99px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+    position: relative;
+    /* Hit area for magnetic handled by parent or js */
 }
 
 .cta-button {
-    background-color: var(--text-primary);
-    color: var(--bg-primary);
-    font-size: 1.25rem;
+    background-color: var(--bg-primary);
+    /* Dark inside */
+    color: var(--text-primary);
+    font-size: 1.1rem;
     font-weight: 600;
-    padding: 1.2rem 3rem;
-    border-radius: 50px;
-    transition: transform 0.1s ease;
+    padding: 1.2rem 3.5rem;
+    border-radius: 99px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
     overflow: hidden;
+    display: block;
 }
 
 .cta-button:hover {
-    /* Handled by GSAP mostly for magnetic */
-    opacity: 0.9;
+    background-color: #1a1a1a;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
 }

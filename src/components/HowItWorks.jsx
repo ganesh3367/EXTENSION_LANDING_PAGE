@@ -134,7 +134,7 @@ const HowItWorks = () => {
     const addToVisuals = (el) => { if (el && !visualsRef.current.includes(el)) visualsRef.current.push(el); };
 
     return (
-        <section className="how-it-works" ref={sectionRef}>
+        <section className="how-it-works" id="how-it-works" ref={sectionRef}>
             {/* Ambient Spot Light */}
             <div className="hiw-glow-spot" ref={glowRef}></div>
 

@@ -62,9 +62,9 @@ const CTA = () => {
                 </h2>
 
                 <div className="cta-button-wrapper" ref={wrapperRef}>
-                    <button className="cta-button" ref={buttonRef}>
+                    <a href="https://marketplace.visualstudio.com/items?itemName=GaneshWayal.html-to-react-js" target="_blank" rel="noopener noreferrer" className="cta-button" ref={buttonRef} style={{ textDecoration: 'none', display: 'inline-block' }}>
                         Install VS Code Extension
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>

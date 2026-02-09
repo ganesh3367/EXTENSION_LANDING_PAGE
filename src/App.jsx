@@ -4,8 +4,10 @@ import FoldMarqueeSection from './components/FoldMarqueeSection';
 import HowItWorks from './components/HowItWorks';
 import LiveTransformation from './components/LiveTransformation';
 import BenefitsStory from './components/BenefitsStory';
-import IntegrationSection from './components/IntegrationSection';
+import IntegrationSection from './components/VSCodeIntegration';
 import CTA from './components/CTA';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 
 // Optional: Global Global ScrollTrigger Refresh for safety
 import gsap from 'gsap';
@@ -16,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   return (
     <div className="app-main">
+      <Navbar />
       <Hero />
       <FoldMarqueeSection />
       <HowItWorks />
@@ -23,6 +26,7 @@ function App() {
       <BenefitsStory />
       <IntegrationSection />
       <CTA />
+      <Footer />
     </div>
   );
 }

@@ -52,7 +52,7 @@ const Features = () => {
     ];
 
     return (
-        <section className="features-section" ref={containerRef}>
+        <section className="features-section" id="features" ref={containerRef}>
             <div className="container">
                 <div className="features-grid">
                     {features.map((f, i) => (
