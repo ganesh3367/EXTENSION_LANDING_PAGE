@@ -1,13 +1,11 @@
 .live-transformation {
     min-height: 100vh;
-    background-color: var(--bg-primary);
-    /* #0B0B0B */
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     padding: 2rem 0;
-    /* JS handles pinning spacing */
     overflow: hidden;
 }
 

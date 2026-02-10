@@ -23,19 +23,15 @@
 .fold-strip {
     position: relative;
     height: 15vh;
-    /* Responsive height */
     min-height: 120px;
-    background: #111111;
-    /* Darker to match theme (was light) */
+    background: rgba(17, 17, 17, 0.85);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    /* Subtle border */
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     overflow: hidden;
     transform-style: preserve-3d;
     box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8);
-    /* Deeper shadow */
     transition: background 0.3s ease;
 }
 

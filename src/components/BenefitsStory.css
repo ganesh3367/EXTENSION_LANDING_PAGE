@@ -1,9 +1,8 @@
 /* BenefitsStory.css */
 .benefits-story {
-    background-color: var(--bg-primary);
+    background-color: transparent;
     position: relative;
     padding: 6rem 0;
-    /* Further reduced padding */
     overflow: hidden;
 }
 
@@ -14,7 +13,6 @@
     display: flex;
     align-items: flex-start;
     gap: 4rem;
-    /* Reduced gap */
 }
 
 /* Left Column (Sticky) */
@@ -24,28 +22,23 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* keep center but maximize space */
     position: sticky;
-    /* Ensure sticky behavior */
     top: 0;
     z-index: 2;
     padding: 1rem 0;
-    /* Minimal padding */
+
 }
 
 /* Header Text */
 .bs-header {
     margin-bottom: 1.5rem;
-    /* Use vh for responsive spacing */
     position: relative;
     z-index: 2;
     flex-shrink: 0;
-    /* Don't shrink header */
 }
 
 .bs-title {
     font-size: clamp(2rem, 4vw, 3.5rem);
-    /* Smaller title */
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 0.5rem;
@@ -83,10 +76,8 @@
     width: 100%;
     /* Flexible height to fit viewport */
     height: auto;
-    /* Force it to fit */
     max-height: 45vh;
     aspect-ratio: 16/9;
-    /* Wider, shorter */
     background: #141414;
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -98,7 +89,6 @@
     overflow: hidden;
     backdrop-filter: blur(20px);
     flex-shrink: 1;
-    /* Allow shrinking if needed */
 }
 
 /* Glow behind preview */
@@ -109,7 +99,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 250px;
-    /* Smaller glow */
     height: 250px;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
     border-radius: 50%;
@@ -151,7 +140,6 @@
     transition: all 0.5s ease;
     border: 1px solid transparent;
     opacity: 0.2;
-    /* Inactive state */
 }
 
 .benefit-block.active {
@@ -233,7 +221,6 @@
         height: auto;
         margin-bottom: 2rem;
         z-index: 10;
-        /* Keep sticky on mobile if desired, or position static */
         position: static;
         padding-top: 4rem;
     }

@@ -1,11 +1,28 @@
+/* VSCodeIntegration.css */
 .vscode-section {
-    padding: 8rem 0;
+    padding: 10rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Center strictly */
-    background-color: var(--bg-primary);
+    background-color: transparent;
     overflow: hidden;
+    position: relative;
+    perspective: 1200px;
+}
+
+/* Ambient Glow */
+.vsi-glow {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
 }
 
 .vscode-container {
@@ -14,86 +31,216 @@
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
-    gap: 4rem;
+    gap: 5rem;
+    position: relative;
+    z-index: 1;
 }
 
+/* Text Column */
 .vscode-text {
     flex: 1;
-    max-width: 400px;
-    opacity: 0;
-    transform: translateX(-30px);
+    max-width: 420px;
 }
 
 .vscode-title {
-    font-size: 2.5rem;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
+    background: linear-gradient(180deg, #FFFFFF 20%, #888888 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    opacity: 0;
 }
 
 .vscode-desc {
     color: var(--text-secondary);
     font-size: 1.1rem;
-}
-
-.vscode-mockup {
-    flex: 1.5;
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
-    border: 1px solid #333;
-    overflow: hidden;
-    display: flex;
-    height: 500px;
-    transform: translateX(100px);
+    line-height: 1.7;
+    margin-bottom: 2rem;
     opacity: 0;
 }
 
+/* Badge */
+.vsi-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    opacity: 0;
+}
+
+.vsi-badge-icon {
+    font-size: 1rem;
+}
+
+/* VS Code Mockup */
+.vscode-mockup {
+    flex: 1.5;
+    background: rgba(30, 30, 30, 0.95);
+    border-radius: 16px;
+    box-shadow:
+        0 50px 100px -20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+/* Title Bar */
+.vsi-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(37, 37, 38, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.vsi-traffic-lights {
+    display: flex;
+    gap: 7px;
+}
+
+.tl-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.tl-red {
+    background: #FF5F56;
+}
+
+.tl-yellow {
+    background: #FFBD2E;
+}
+
+.tl-green {
+    background: #27C93F;
+}
+
+.vsi-titlebar-text {
+    color: #666;
+    font-size: 0.8rem;
+    font-family: var(--font-family);
+}
+
+/* Body */
+.vsi-body {
+    display: flex;
+    flex: 1;
+    min-height: 420px;
+}
+
+/* Sidebar */
 .sidebar {
-    width: 250px;
-    background-color: #252526;
-    border-right: 1px solid #333;
+    width: 220px;
+    background: rgba(37, 37, 38, 0.6);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: column;
 }
 
 .sidebar-header {
-    padding: 10px 20px;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
+    padding: 12px 16px;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #bbb;
+    color: #888;
+    font-weight: 600;
 }
 
 .file-list {
-    padding: 10px 0;
+    padding: 4px 0;
 }
 
 .file-item {
-    padding: 5px 20px;
+    padding: 5px 16px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    color: #999;
+    font-size: 0.85rem;
+    transition: background 0.15s ease, color 0.15s ease;
+    cursor: default;
+    opacity: 0;
+}
+
+.file-item:hover {
+    background: rgba(255, 255, 255, 0.04);
     color: #ccc;
-    font-size: 0.9rem;
 }
 
 .file-item.active {
-    background-color: #37373d;
+    background: rgba(4, 57, 94, 0.6);
     color: #fff;
+    box-shadow: inset 2px 0 0 #007fd4;
 }
 
+/* Editor Area */
 .editor-area {
     flex: 1;
-    padding: 20px;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.9rem;
+    padding: 16px 0;
+    font-family: 'Fira Code', 'SF Mono', 'Cascadia Code', monospace;
+    font-size: 0.88rem;
     color: #d4d4d4;
     position: relative;
+    overflow: hidden;
 }
 
-.line {
-    line-height: 1.5;
+.editor-lines {
+    display: flex;
+    flex-direction: column;
 }
 
+.code-line {
+    display: flex;
+    align-items: center;
+    padding: 1px 20px 1px 0;
+    line-height: 1.65;
+    opacity: 0;
+    transition: background 0.15s ease;
+}
+
+.code-line.active-line {
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 2px solid #007fd4;
+}
+
+.line-num {
+    display: inline-block;
+    width: 40px;
+    text-align: right;
+    padding-right: 16px;
+    color: #555;
+    font-size: 0.8rem;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+/* Blinking Cursor */
+.vsi-cursor {
+    color: #aeafad;
+    font-weight: 100;
+    margin-left: 2px;
+    animation: none;
+}
+
+/* Syntax Colors */
 .keyword {
     color: #569cd6;
 }
@@ -106,13 +253,38 @@
     color: #ce9178;
 }
 
-@media (max-width: 900px) {
+/* Responsive */
+@media (max-width: 1024px) {
     .vscode-container {
         flex-direction: column;
+        gap: 3rem;
     }
 
     .vscode-text {
         text-align: center;
-        margin-bottom: 3rem;
+        max-width: 100%;
+    }
+
+    .vscode-mockup {
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .vscode-section {
+        padding: 6rem 0;
+    }
+
+    .vsi-body {
+        min-height: 300px;
+    }
+
+    .editor-area {
+        font-size: 0.78rem;
     }
 }
