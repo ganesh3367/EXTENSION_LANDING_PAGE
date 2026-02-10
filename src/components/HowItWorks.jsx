@@ -10,8 +10,8 @@ const HowItWorks = () => {
     const containerRef = useRef(null);
     const stepsRef = useRef([]); // Will hold step wrapper elements
     const visualsRef = useRef([]); // Will hold visual card elements
-    const progressBarRef = useRef(null);
-    const glowRef = useRef(null); // Ambient spot light
+    const stepDotsRef = useRef([]);
+    const glowRef = useRef(null);
 
     // Header Refs
     const titleRef = useRef(null);
@@ -21,7 +21,7 @@ const HowItWorks = () => {
         const section = sectionRef.current;
         const steps = stepsRef.current;
         const visuals = visualsRef.current;
-        const progressBar = progressBarRef.current;
+        const stepDots = stepDotsRef.current;
         const glow = glowRef.current;
         const title = titleRef.current;
         const subtitle = subtitleRef.current;
@@ -65,6 +65,11 @@ const HowItWorks = () => {
             }
         });
 
+        // Set initial dot states — first dot active
+        if (stepDots.length >= 3) {
+            gsap.set(stepDots[0], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)' });
+        }
+
         // --- Step 1 -> Step 2 ---
         tl.to(steps[0], {
             autoAlpha: 0,
@@ -79,9 +84,10 @@ const HowItWorks = () => {
                 { autoAlpha: 1, x: 0, rotationY: 0, scale: 1, duration: 1.5, ease: "power2.out" },
                 "<0.2"
             )
-            // Glow moves slightly
             .to(glow, { left: '40%', opacity: 0.8, duration: 1.5 }, "<")
-            .to(progressBar, { height: "50%", duration: 1.5, ease: "none" }, "<");
+            // Dot 1 deactivates, Dot 2 activates
+            .to(stepDots[0], { scale: 1, background: 'rgba(255,255,255,0.2)', boxShadow: '0 0 0 transparent', duration: 0.5 }, "<")
+            .to(stepDots[1], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)', duration: 0.5 }, "<0.3");
 
         // --- Step 2 -> Step 3 ---
         tl.to(steps[1], {
@@ -97,9 +103,10 @@ const HowItWorks = () => {
                 { autoAlpha: 1, x: 0, rotationY: 0, scale: 1, duration: 1.5, ease: "power2.out" },
                 "<0.2"
             )
-            // Glow moves back
             .to(glow, { left: '60%', opacity: 1, duration: 1.5 }, "<")
-            .to(progressBar, { height: "100%", duration: 1.5, ease: "none" }, "<");
+            // Dot 2 deactivates, Dot 3 activates
+            .to(stepDots[1], { scale: 1, background: 'rgba(255,255,255,0.2)', boxShadow: '0 0 0 transparent', duration: 0.5 }, "<")
+            .to(stepDots[2], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)', duration: 0.5 }, "<0.3");
 
 
         // "ALIVE" ANIMATIONS (Independent Loops)
@@ -132,6 +139,7 @@ const HowItWorks = () => {
 
     const addToSteps = (el) => { if (el && !stepsRef.current.includes(el)) stepsRef.current.push(el); };
     const addToVisuals = (el) => { if (el && !visualsRef.current.includes(el)) visualsRef.current.push(el); };
+    const addToDots = (el) => { if (el && !stepDotsRef.current.includes(el)) stepDotsRef.current.push(el); };
 
     return (
         <section className="how-it-works" id="how-it-works" ref={sectionRef}>
@@ -246,8 +254,10 @@ const HowItWorks = () => {
 
                 </div>
 
-                <div className="hiw-progress-container">
-                    <div className="hiw-progress-bar" ref={progressBarRef}></div>
+                <div className="hiw-step-dots">
+                    <div className="hiw-dot" ref={addToDots}></div>
+                    <div className="hiw-dot" ref={addToDots}></div>
+                    <div className="hiw-dot" ref={addToDots}></div>
                 </div>
 
             </div>
