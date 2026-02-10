@@ -55,7 +55,6 @@
     font-weight: 500;
     margin-bottom: 0.5rem;
     opacity: 0;
-    /* JS fade in */
     border: 1px solid var(--border);
     padding: 0.5rem 1.2rem;
     border-radius: 99px;
@@ -72,15 +71,13 @@
     letter-spacing: -0.04em;
     margin: 0;
     opacity: 0;
-    /* JS fade in */
 
-    /* Premium Gradient Text */
     background: linear-gradient(180deg, #FFFFFF 20%, #777777 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    text-shadow: 0 10px 40px rgba(255, 255, 255, 0.05);
+
 }
 
 /* Subtitle */
@@ -91,7 +88,6 @@
     margin: 0 auto;
     line-height: 1.7;
     opacity: 0;
-    /* JS fade in */
     font-weight: 400;
 }
 
@@ -101,7 +97,6 @@
     gap: 1.5rem;
     margin-top: 1.5rem;
     opacity: 0;
-    /* JS fade in */
 }
 
 .hero-btn {
@@ -120,7 +115,6 @@
 .hero-btn-wrapper {
     display: inline-block;
     padding: 2px;
-    /* Border width */
     border-radius: 99px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
     position: relative;
@@ -128,17 +122,14 @@
 
 .hero-btn-primary {
     background-color: var(--bg-primary);
-    /* Dark inside */
     color: var(--text-primary);
     box-shadow: none;
-    /* Reset old shadow */
 }
 
 .hero-btn-primary:hover {
     background-color: #1a1a1a;
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
     transform: none;
-    /* transform handled by wrapper or different logic if needed, but here just color change */
 }
 
 .hero-btn-secondary {
