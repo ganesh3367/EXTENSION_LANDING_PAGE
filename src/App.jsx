@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Hero from './components/Hero';
 import FoldMarqueeSection from './components/FoldMarqueeSection';
 import HowItWorks from './components/HowItWorks';
@@ -20,6 +20,7 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="app-main">
         <Navbar />
         <Routes>

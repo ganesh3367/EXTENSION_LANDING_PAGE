@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [hidden, setHidden] = useState(false);
-    const lastScrollY = useRef(0);
-
     const lastScrollY = useRef(0);
 
     useEffect(() => {
