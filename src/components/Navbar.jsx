@@ -5,30 +5,30 @@ import './Navbar.css';
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [hidden, setHidden] = useState(false);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const lastScrollY = useRef(0);
+
+    const lastScrollY = useRef(0);
 
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
-            if (currentScrollY > 50) {
-                setScrolled(true);
-            } else {
-                setScrolled(false);
-            }
+            // Update background state
+            setScrolled(currentScrollY > 50);
 
-            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Toggle visibility on scroll direction
+            if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
                 setHidden(true);
             } else {
                 setHidden(false);
             }
 
-            setLastScrollY(currentScrollY);
+            lastScrollY.current = currentScrollY;
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY]);
+    }, []);
 
     return (
         <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${hidden ? 'hidden' : ''}`}>
