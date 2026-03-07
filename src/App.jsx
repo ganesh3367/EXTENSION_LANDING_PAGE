@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Hero from './components/Hero';
 import FoldMarqueeSection from './components/FoldMarqueeSection';
 import HowItWorks from './components/HowItWorks';
@@ -8,6 +9,7 @@ import IntegrationSection from './components/VSCodeIntegration';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import Aboutit from './components/Aboutit';
 
 // Optional: Global Global ScrollTrigger Refresh for safety
 import gsap from 'gsap';
@@ -17,17 +19,26 @@ gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   return (
-    <div className="app-main">
-      <Navbar />
-      <Hero />
-      <FoldMarqueeSection />
-      <HowItWorks />
-      <LiveTransformation />
-      <BenefitsStory />
-      <IntegrationSection />
-      <CTA />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <div className="app-main">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={
+            <>
+              <Hero />
+              <FoldMarqueeSection />
+              <HowItWorks />
+              <LiveTransformation />
+              <BenefitsStory />
+              <IntegrationSection />
+              <CTA />
+              <Footer />
+            </>
+          } />
+          <Route path="/about" element={<Aboutit />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

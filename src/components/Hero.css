@@ -145,6 +145,38 @@
     transform: translateY(-2px);
 }
 
+.hero-stats-badge {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.hero-stats-badge.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stats-count {
+    color: #FFFFFF;
+    font-weight: 700;
+    background: linear-gradient(90deg, #FFFFFF, #aaaaaa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stats-label {
+    opacity: 0.8;
+}
+
 /* Mobile Tweaks */
 @media (max-width: 768px) {
     .hero-section {

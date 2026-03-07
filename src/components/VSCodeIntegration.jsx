@@ -28,7 +28,6 @@ const VSCodeIntegration = () => {
     useEffect(() => {
         const section = sectionRef.current;
 
-        // Master timeline scrubbed by scroll
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: section,
@@ -38,57 +37,41 @@ const VSCodeIntegration = () => {
             }
         });
 
-        tl.fromTo(mockupRef.current,
-            {
-                rotateY: 15,
-                rotateX: 5,
-                x: 120,
-                opacity: 0,
-                scale: 0.9
-            },
-            {
-                rotateY: 0,
-                rotateX: 0,
-                x: 0,
-                opacity: 1,
-                scale: 1,
-                duration: 1.5,
-                ease: "power3.out"
-            }
-        );
+        tl.to(mockupRef.current, {
+            rotateY: 0,
+            rotateX: 0,
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out"
+        })
+            .fromTo(titleRef.current,
+                { x: -60, opacity: 0, filter: "blur(8px)" },
+                { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
+                "-=1.2"
+            )
+            .fromTo(descRef.current,
+                { x: -40, opacity: 0, filter: "blur(6px)" },
+                { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
+                "-=0.8"
+            )
+            .fromTo(filesRef.current,
+                { x: -20, opacity: 0 },
+                { x: 0, opacity: 1, stagger: 0.08, duration: 0.3, ease: "power2.out" },
+                "-=0.6"
+            );
 
-        tl.fromTo(titleRef.current,
-            { x: -60, opacity: 0, filter: "blur(8px)" },
-            { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
-            "-=1.2"
-        );
-
-        tl.fromTo(descRef.current,
-            { x: -40, opacity: 0, filter: "blur(6px)" },
-            { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
-            "-=0.8"
-        );
-
-        // 3. Sidebar files stagger in
-        tl.fromTo(filesRef.current,
-            { x: -20, opacity: 0 },
-            { x: 0, opacity: 1, stagger: 0.08, duration: 0.3, ease: "power2.out" },
-            "-=0.6"
-        );
-
-        // 4. Code lines type in one by one
         tl.fromTo(linesRef.current,
             { opacity: 0, x: 10 },
             { opacity: 1, x: 0, stagger: 0.06, duration: 0.2, ease: "power2.out" },
             "-=0.3"
-        );
-
-        // 5. Badge pops in
-        tl.fromTo(badgeRef.current,
-            { y: 15, opacity: 0, scale: 0.9 },
-            { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" },
-            "-=0.2"
-        );
+        )
+            .fromTo(badgeRef.current,
+                { y: 15, opacity: 0, scale: 0.9 },
+                { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" },
+                "-=0.2"
+            );
 
         // Background glow follows scroll
         tl.fromTo(glowRef.current,

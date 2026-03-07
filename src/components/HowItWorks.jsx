@@ -28,14 +28,10 @@ const HowItWorks = () => {
 
         if (!section || steps.length < 3) return;
 
-        // Initial State
         gsap.set(steps, { autoAlpha: 0, x: 100, scale: 0.95 });
         gsap.set(steps[0], { autoAlpha: 1, x: 0, scale: 1 });
-
-        // Initial Glow Position (Center)
         gsap.set(glow, { xPercent: -50, yPercent: -50, left: '50%', top: '50%' });
 
-        // --- Header Entrance Animation ---
         gsap.fromTo([title, subtitle],
             { y: 50, opacity: 0, filter: 'blur(10px)' },
             {
@@ -47,30 +43,27 @@ const HowItWorks = () => {
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: section,
-                    start: "top 70%", // Animate in when section approaches
+                    start: "top 70%",
                     toggleActions: "play none none reverse"
                 }
             }
         );
 
-        // MASTER TIMELINE (Scroll)
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: section,
                 start: "top top",
-                end: "+=3500", // Long scroll
+                end: "+=3500",
                 pin: true,
                 scrub: 0.8,
                 anticipatePin: 1
             }
         });
 
-        // Set initial dot states — first dot active
         if (stepDots.length >= 3) {
             gsap.set(stepDots[0], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)' });
         }
 
-        // --- Step 1 -> Step 2 ---
         tl.to(steps[0], {
             autoAlpha: 0,
             x: -100,
@@ -85,11 +78,9 @@ const HowItWorks = () => {
                 "<0.2"
             )
             .to(glow, { left: '40%', opacity: 0.8, duration: 1.5 }, "<")
-            // Dot 1 deactivates, Dot 2 activates
             .to(stepDots[0], { scale: 1, background: 'rgba(255,255,255,0.2)', boxShadow: '0 0 0 transparent', duration: 0.5 }, "<")
             .to(stepDots[1], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)', duration: 0.5 }, "<0.3");
 
-        // --- Step 2 -> Step 3 ---
         tl.to(steps[1], {
             autoAlpha: 0,
             x: -100,
@@ -104,7 +95,6 @@ const HowItWorks = () => {
                 "<0.2"
             )
             .to(glow, { left: '60%', opacity: 1, duration: 1.5 }, "<")
-            // Dot 2 deactivates, Dot 3 activates
             .to(stepDots[1], { scale: 1, background: 'rgba(255,255,255,0.2)', boxShadow: '0 0 0 transparent', duration: 0.5 }, "<")
             .to(stepDots[2], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)', duration: 0.5 }, "<0.3");
 

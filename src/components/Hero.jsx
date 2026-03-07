@@ -1,16 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useMarketplaceStats } from '../hooks/useMarketplaceStats';
 import './Hero.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
+    const stats = useMarketplaceStats();
     const sectionRef = useRef(null);
     const eyebrowRef = useRef(null);
     const titleRef = useRef(null);
     const subtitleRef = useRef(null);
     const ctaRef = useRef(null);
+    const statsRef = useRef(null);
     const glowRef = useRef(null);
     const scrollRef = useRef(null);
 
@@ -24,7 +27,6 @@ const Hero = () => {
     useEffect(() => {
         const section = sectionRef.current;
 
-        // 1. Entrance Timeline
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
         tl.fromTo(eyebrowRef.current,
@@ -52,23 +54,20 @@ const Hero = () => {
                 "-=0.5"
             );
 
-        // 2. Scroll Parallax (Title & Content)
-        // Use fromTo to ensure we have a defined start state that matches the end of the entrance animation
-        // and a defined end state for the scroll effect.
         gsap.fromTo([titleRef.current, subtitleRef.current, ctaRef.current],
             { y: 0, opacity: 1 },
             {
                 scrollTrigger: {
                     trigger: section,
                     start: "top top",
-                    end: "bottom center", // Extended end to make it smoother
+                    end: "bottom center",
                     scrub: 1,
                     toggleActions: "play reverse play reverse"
                 },
                 y: -100,
                 opacity: 0,
                 stagger: 0.1,
-                immediateRender: false // Critical: wait for entrance animation to finish or at least don't overwrite initial state immediately
+                immediateRender: false
             }
         );
 
@@ -161,22 +160,17 @@ const Hero = () => {
             }
             ScrollTrigger.getAll().forEach(t => t.kill());
         };
-
     }, []);
 
-    const addToFloaters = (el) => {
-        if (el && !floatersRef.current.includes(el)) {
-            floatersRef.current.push(el);
-        }
-    };
+    const showStats = !stats.loading && !stats.error && stats.downloads > 0;
 
     return (
         <section className="hero-section" ref={sectionRef}>
             {/* Background Elements */}
             <div className="hero-glow" ref={glowRef}></div>
-            <div className="hero-floater floater-1" ref={addToFloaters}></div>
-            <div className="hero-floater floater-2" ref={addToFloaters}></div>
-            <div className="hero-floater floater-3" ref={addToFloaters}></div>
+            <div className="hero-floater floater-1"></div>
+            <div className="hero-floater floater-2"></div>
+            <div className="hero-floater floater-3"></div>
 
             <div className="container hero-container">
                 <div className="hero-eyebrow" ref={eyebrowRef}>
@@ -202,6 +196,15 @@ const Hero = () => {
                     <a href="#how-it-works" className="hero-btn hero-btn-secondary" style={{ textDecoration: 'none' }}>
                         See How It Works
                     </a>
+                </div>
+
+                <div className={`hero-stats-badge ${showStats ? 'visible' : ''}`}>
+                    {showStats && (
+                        <>
+                            <span className="stats-count">{stats.downloads.toLocaleString()}+</span>
+                            <span className="stats-label">Developers are building faster</span>
+                        </>
+                    )}
                 </div>
 
                 <div className="scroll-indicator" ref={scrollRef}>

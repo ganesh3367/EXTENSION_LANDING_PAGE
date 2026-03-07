@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -10,14 +11,12 @@ const Navbar = () => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
-            // Add background when scrolled
             if (currentScrollY > 50) {
                 setScrolled(true);
             } else {
                 setScrolled(false);
             }
 
-            // Hide/Show on scroll
             if (currentScrollY > lastScrollY && currentScrollY > 100) {
                 setHidden(true);
             } else {
@@ -45,12 +44,12 @@ const Navbar = () => {
                 </div>
 
                 <div className="navbar-actions">
-                    <a href="https://marketplace.visualstudio.com/items?itemName=GaneshWayal.html-to-react-js" target="_blank" rel="noopener noreferrer" className="nav-btn nav-btn-primary" style={{ textDecoration: 'none' }}>
-                        Get Extension
-                    </a>
+                    <Link to="/about" className="nav-btn nav-btn-primary" style={{ textDecoration: 'none' }}>
+                        About It
+                    </Link>
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 };
 
