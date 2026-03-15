@@ -17,7 +17,7 @@
     transform: translate(-50%, -50%);
     width: 800px;
     height: 800px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
     z-index: 0;
@@ -51,7 +51,7 @@
 
 .lt-title {
     font-size: 3rem;
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 700;
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
@@ -60,22 +60,20 @@
 .lt-divider {
     width: 60%;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%);
     margin: 0 auto;
 }
 
 /* Editor Window */
 .editor-window {
-    background: rgba(18, 18, 18, 0.8);
+    background: var(--bg-card);
     backdrop-filter: blur(20px);
     /* Glass */
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border);
     /* Premium Border */
     border-radius: 16px;
     overflow: hidden;
-    box-shadow:
-        0 50px 100px -20px rgba(0, 0, 0, 0.7),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: var(--card-shadow);
     /* Top highlight */
     margin: 0 auto;
     text-align: left;
@@ -91,13 +89,13 @@
 }
 
 .editor-header {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--bg-secondary);
     padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     /* To push filename to center or right */
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border);
 }
 
 .window-controls {
@@ -131,10 +129,7 @@
     /* GSAP handles opacity/visibilty */
 }
 
-.code-line {
-    /* For line-by-line animation */
-    /* opacity: 0; set by GSAP */
-}
+/* syntax-highlighting overrides */
 
 /* Syntax Highlighting overrides */
 .tag {
@@ -150,7 +145,7 @@
 }
 
 .text {
-    color: #d4d4d4;
+    color: var(--text-primary);
 }
 
 .comment {
@@ -178,10 +173,10 @@
     position: absolute;
     bottom: 20px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-secondary);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
     padding: 8px 16px;
     border-radius: 8px;
     font-size: 0.8rem;

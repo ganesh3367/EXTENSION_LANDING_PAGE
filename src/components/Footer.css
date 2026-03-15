@@ -3,11 +3,11 @@
     position: relative;
     padding: 6rem 0 2rem;
     overflow: hidden;
-    background: rgba(10, 10, 10, 0.6);
+    background: var(--bg-card);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.2);
 }
 
 /* Ambient glow at top of footer */
@@ -18,7 +18,7 @@
     transform: translateX(-50%);
     width: 800px;
     height: 400px;
-    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    background: radial-gradient(ellipse, var(--radial-gradient) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
 }
@@ -98,7 +98,7 @@
 .footer-divider {
     height: 1px;
     margin: 3rem 0 1.5rem;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%);
     position: relative;
     z-index: 1;
 }
@@ -127,7 +127,7 @@
     padding: 0.4rem 1rem;
     border: 1px solid var(--border);
     border-radius: 99px;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--bg-secondary);
     backdrop-filter: blur(10px);
 }
 

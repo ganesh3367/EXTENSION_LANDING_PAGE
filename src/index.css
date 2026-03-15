@@ -1,4 +1,5 @@
 :root {
+  /* Dark Theme (Default) */
   --bg-primary: #050505;
   --bg-secondary: #0A0A0A;
   --bg-card: #121212;
@@ -9,6 +10,26 @@
   --border: rgba(255, 255, 255, 0.08);
   --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --gradient-text: linear-gradient(180deg, #FFFFFF 0%, #A5A5A5 100%);
+  --grid-color: rgba(255, 255, 255, 0.035);
+  --radial-gradient: rgba(255, 255, 255, 0.03);
+  --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='light'] {
+  --bg-primary: #FBFBFB;
+  --bg-secondary: #F2F2F7;
+  --bg-card: #FFFFFF;
+  --text-primary: #1D1D1F;
+  --text-secondary: #6E6E73;
+  --accent: #000000;
+  --accent-glow: rgba(0, 0, 0, 0.05);
+  --border: rgba(0, 0, 0, 0.06);
+  --gradient-text: linear-gradient(180deg, #1D1D1F 0%, #434343 100%);
+  --grid-color: rgba(0, 0, 0, 0.02);
+  --radial-gradient: rgba(0, 0, 0, 0.015);
+  --card-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.04), 
+    0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -24,17 +45,19 @@ html {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   overflow-x: hidden;
   line-height: 1.6;
   background-image:
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    radial-gradient(circle at 50% 0%, var(--radial-gradient) 0%, transparent 50%),
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 100% 100%, 40px 40px, 40px 40px;
   background-position: 0 0, 0 0, 0 0;
+  transition: background-image 0.3s ease;
 }
 
 a {

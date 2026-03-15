@@ -20,13 +20,22 @@
     width: 100%;
 }
 
+.fold-wrapper {
+    position: relative;
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-primary);
+    overflow: hidden;
+}
+
 .fold-strip {
     position: relative;
     height: 15vh;
     min-height: 120px;
-    background: rgba(17, 17, 17, 0.85);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     overflow: hidden;

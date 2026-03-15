@@ -14,33 +14,40 @@ const Aboutit = () => {
     const featuresRef = useRef(null);
 
     useEffect(() => {
-        // Entrance animation
-        const entrance = gsap.timeline();
-        entrance.fromTo(".about-eyebrow", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, delay: 0.2 })
-            .fromTo(".about-title", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.6")
-            .fromTo(".about-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, "-=0.6");
+        let ctx = gsap.context(() => {
+            // Entrance animation
+            const entrance = gsap.timeline();
+            entrance.fromTo(".about-eyebrow", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, delay: 0.2 })
+                .fromTo(".about-title", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.6")
+                .fromTo(".about-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, "-=0.6");
 
-        // Scroll animations
-        if (gridRef.current) {
-            gsap.fromTo(".about-card", { y: 50, opacity: 0 }, {
-                y: 0, opacity: 1, duration: 0.8, stagger: 0.2,
-                scrollTrigger: { trigger: gridRef.current, start: "top 80%" }
-            });
-        }
+            // Scroll animations
+            if (gridRef.current) {
+                gsap.fromTo(".about-card", { y: 50, opacity: 0 }, {
+                    y: 0, opacity: 1, duration: 0.8, stagger: 0.2,
+                    scrollTrigger: { trigger: gridRef.current, start: "top 80%" }
+                });
+            }
 
-        if (storyRef.current) {
-            gsap.fromTo(storyRef.current, { opacity: 0, scale: 0.95 }, {
-                opacity: 1, scale: 1, duration: 1, ease: "power2.out",
-                scrollTrigger: { trigger: storyRef.current, start: "top 75%" }
-            });
-        }
+            if (storyRef.current) {
+                gsap.fromTo(storyRef.current, { opacity: 0, scale: 0.95 }, {
+                    opacity: 1, scale: 1, duration: 1, ease: "power2.out",
+                    scrollTrigger: { trigger: storyRef.current, start: "top 75%" }
+                });
+            }
 
-        if (featuresRef.current) {
-            gsap.fromTo(".feature-item", { x: -30, opacity: 0 }, {
-                x: 0, opacity: 1, duration: 0.6, stagger: 0.1,
-                scrollTrigger: { trigger: featuresRef.current, start: "top 80%" }
-            });
-        }
+            if (featuresRef.current) {
+                gsap.fromTo(".feature-item", { x: -30, opacity: 0 }, {
+                    x: 0, opacity: 1, duration: 0.6, stagger: 0.1,
+                    scrollTrigger: { trigger: featuresRef.current, start: "top 80%" }
+                });
+            }
+        });
+
+        return () => {
+            ctx.revert();
+            ScrollTrigger.getAll().forEach(t => t.kill());
+        };
     }, []);
 
     return (
