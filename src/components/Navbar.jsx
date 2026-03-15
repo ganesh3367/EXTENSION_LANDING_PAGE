@@ -9,7 +9,7 @@ const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const lastScrollY = useRef(0);
-    const { currentUser } = useAuth();
+    const { currentUser, loading } = useAuth();
     const { theme, toggleTheme } = useTheme();
     const location = useLocation();
     const { pathname } = useLocation();
@@ -68,8 +68,8 @@ const Navbar = () => {
                             Dashboard
                         </Link>
                     ) : (
-                        <Link to="/login" className="nav-btn nav-btn-primary">
-                            Sign In
+                        <Link to="/login" className={`nav-btn nav-btn-primary ${loading ? 'loading' : ''}`}>
+                            {loading ? '...' : 'Sign In'}
                         </Link>
                     )}
                 </div>

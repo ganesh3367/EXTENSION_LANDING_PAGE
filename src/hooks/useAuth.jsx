@@ -70,17 +70,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     console.log("AuthContext: Setting up onAuthStateChanged...");
     
-    // Safety timeout: Ensure loading is set to false even if Firebase hangs
-    const timeout = setTimeout(() => {
-      if (loading) {
-        console.warn("AuthContext: Auth initialization is taking too long, forcing loading to false");
-        setLoading(false);
-      }
-    }, 5000);
-
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       console.log("AuthContext: Auth state changed:", user ? user.email : "No user");
-      clearTimeout(timeout);
       
       setCurrentUser(user);
       setLoading(false); // Render children ASAP
@@ -103,7 +94,6 @@ export function AuthProvider({ children }) {
     });
 
     return () => {
-      clearTimeout(timeout);
       unsubscribe();
     };
   }, []);
@@ -111,6 +101,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     userData,
+    loading,
     signup,
     login,
     googleSignIn,
@@ -119,7 +110,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }

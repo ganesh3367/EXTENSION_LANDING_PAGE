@@ -386,6 +386,275 @@
   transform: translateX(20px);
 }
 
+/* Installed Badge */
+.installed-badge {
+  background: rgba(52, 199, 89, 0.15);
+  color: #34c759;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(52, 199, 89, 0.2);
+}
+
+/* My Extensions List */
+.my-extensions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+}
+
+.my-ext-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.my-ext-card:hover {
+  background: var(--bg-secondary);
+  border-color: var(--text-secondary);
+}
+
+.my-ext-icon {
+  width: 72px;
+  height: 72px;
+  background: var(--bg-primary);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.my-ext-info {
+  flex-grow: 1;
+}
+
+.my-ext-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.my-ext-header h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.status-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.status-tag.active { background: rgba(52, 199, 89, 0.1); color: #34c759; }
+.status-tag.update-available { background: rgba(0, 122, 255, 0.1); color: #007aff; }
+
+.my-ext-info p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+}
+
+.my-ext-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.version-tag {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+.manage-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 0.5rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.manage-btn:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+/* Add Extension Prompt */
+.add-ext-prompt {
+  border: 2px dashed var(--border);
+  border-radius: 24px;
+  padding: 3rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.prompt-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.prompt-content svg {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.prompt-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prompt-content p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.go-explore-btn {
+  background: var(--gradient-text);
+  color: var(--bg-primary);
+  padding: 0.875rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: transform 0.2s ease;
+}
+
+.go-explore-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Explore Extensions Grid */
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 2rem;
+}
+
+.explore-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.explore-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-text);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.explore-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--text-secondary);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.explore-card:hover::before {
+  opacity: 1;
+}
+
+.explore-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.explore-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.explore-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.explore-info-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.explore-rating {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #ffcc00;
+  background: rgba(255, 204, 0, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.explore-details p {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.explore-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.user-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.install-btn {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.install-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(0.9);
+}
+
 @media (max-width: 1024px) {
   .profile-container {
     flex-direction: column;
@@ -402,5 +671,26 @@
   
   .profile-content {
     padding: 2rem 1.5rem;
+  }
+
+  .explore-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .explore-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .explore-card {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+  
+  .explore-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
   }
 }
