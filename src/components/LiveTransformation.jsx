@@ -27,79 +27,79 @@ const LiveTransformation = () => {
 
         if (!section || !editor) return;
 
-        // 1. Initial State
-        gsap.set(header, { y: 30, opacity: 0 });
-        gsap.set(editor, { scale: 0.96, opacity: 0, filter: 'blur(10px)' });
-        gsap.set(jsxLines, { opacity: 0, y: 10 }); // JSX Hidden
-        gsap.set(htmlLines, { opacity: 1, y: 0 }); // HTML Visible
+        let ctx = gsap.context(() => {
+            // 1. Initial State
+            gsap.set(header, { y: 30, opacity: 0 });
+            gsap.set(editor, { scale: 0.96, opacity: 0, filter: 'blur(10px)' });
+            gsap.set(jsxLines, { opacity: 0, y: 10 }); // JSX Hidden
+            gsap.set(htmlLines, { opacity: 1, y: 0 }); // HTML Visible
 
-        // 2. Entrance Animation (Viewport)
-        const entranceTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: "top 70%",
-                toggleActions: "play none none reverse"
-            }
-        });
+            // 2. Entrance Animation (Viewport)
+            const entranceTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 70%",
+                    toggleActions: "play none none reverse"
+                }
+            });
 
-        entranceTl.to(header, { y: 0, opacity: 1, duration: 1, ease: "power3.out" })
-            .to(editor, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 1.2, ease: "expo.out" }, "-=0.8");
+            entranceTl.to(header, { y: 0, opacity: 1, duration: 1, ease: "power3.out" })
+                .to(editor, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 1.2, ease: "expo.out" }, "-=0.8");
 
-        // 3. Pinned Scroll Transformation (The "WOW" moment)
-        const scrollTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: "center center",
-                end: "+=2000", // Give it time
-                pin: true,
-                scrub: 1,
-                anticipatePin: 1
-            }
-        });
+            // 3. Pinned Scroll Transformation (The "WOW" moment)
+            const scrollTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "center center",
+                    end: "+=2000", // Give it time
+                    pin: true,
+                    scrub: 1,
+                    anticipatePin: 1
+                }
+            });
 
-        // Step A: Fade OUT HTML lines (staggered)
-        scrollTl.to(htmlLines, {
-            opacity: 0,
-            x: -20, // Drift left
-            stagger: 0.1,
-            duration: 1,
-            ease: "power2.in"
-        });
+            // Step A: Fade OUT HTML lines (staggered)
+            scrollTl.to(htmlLines, {
+                opacity: 0,
+                x: -20, // Drift left
+                stagger: 0.1,
+                duration: 1,
+                ease: "power2.in"
+            });
 
-        // Step B: Fade IN JSX lines (staggered)
-        scrollTl.to(jsxLines, {
-            opacity: 1,
-            y: 0,
-            stagger: 0.1,
-            duration: 1,
-            ease: "power2.out"
-        }, "-=0.5"); // Overlap slightly with HTML fade for fluidity
+            // Step B: Fade IN JSX lines (staggered)
+            scrollTl.to(jsxLines, {
+                opacity: 1,
+                y: 0,
+                stagger: 0.1,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=0.5"); // Overlap slightly with HTML fade for fluidity
 
-        // Step C: Badge Enters
-        scrollTl.to(badge, {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            ease: "back.out(1.7)"
-        });
+            // Step C: Badge Enters
+            scrollTl.to(badge, {
+                opacity: 1,
+                y: 0,
+                duration: 0.5,
+                ease: "back.out(1.7)"
+            });
 
-        // 4. Parallax & 3D Tilt (Subtle)
-        // We can use a separate ScrollTrigger or just animate properties in the main scrub
-        scrollTl.to(editor, {
-            rotationX: 2, // Slight tilt back
-            y: -50, // Move up faster than header
-            ease: "none"
-        }, 0); // At start of scrub
+            // 4. Parallax & 3D Tilt (Subtle)
+            // We can use a separate ScrollTrigger or just animate properties in the main scrub
+            scrollTl.to(editor, {
+                rotationX: 2, // Slight tilt back
+                y: -50, // Move up faster than header
+                ease: "none"
+            }, 0); // At start of scrub
 
-        scrollTl.to(header, {
-            y: -20, // Move up slower
-            ease: "none"
-        }, 0);
-
+            scrollTl.to(header, {
+                y: -20, // Move up slower
+                ease: "none"
+            }, 0);
+        }, sectionRef);
 
         return () => {
-            ScrollTrigger.getAll().forEach(t => t.kill());
-            // Timelines are killed by ScrollTrigger usually
+            ctx.revert();
         };
     }, []);
 

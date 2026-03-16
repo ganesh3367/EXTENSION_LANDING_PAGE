@@ -27,98 +27,102 @@ const VSCodeIntegration = () => {
 
     useEffect(() => {
         const section = sectionRef.current;
+        let handleMouseMove;
+        let handleMouseLeave;
 
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: "top 80%",
-                end: "bottom center",
-                scrub: 1.5,
-            }
-        });
-
-        tl.to(mockupRef.current, {
-            rotateY: 0,
-            rotateX: 0,
-            x: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1.5,
-            ease: "power3.out"
-        })
-            .fromTo(titleRef.current,
-                { x: -60, opacity: 0, filter: "blur(8px)" },
-                { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
-                "-=1.2"
-            )
-            .fromTo(descRef.current,
-                { x: -40, opacity: 0, filter: "blur(6px)" },
-                { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
-                "-=0.8"
-            )
-            .fromTo(filesRef.current,
-                { x: -20, opacity: 0 },
-                { x: 0, opacity: 1, stagger: 0.08, duration: 0.3, ease: "power2.out" },
-                "-=0.6"
-            );
-
-        tl.fromTo(linesRef.current,
-            { opacity: 0, x: 10 },
-            { opacity: 1, x: 0, stagger: 0.06, duration: 0.2, ease: "power2.out" },
-            "-=0.3"
-        )
-            .fromTo(badgeRef.current,
-                { y: 15, opacity: 0, scale: 0.9 },
-                { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" },
-                "-=0.2"
-            );
-
-        // Background glow follows scroll
-        tl.fromTo(glowRef.current,
-            { opacity: 0, scale: 0.5 },
-            { opacity: 1, scale: 1, duration: 1.5, ease: "power2.out" },
-            0
-        );
-
-        // Blinking cursor (independent, non-scrubbed)
-        gsap.to(cursorRef.current, {
-            opacity: 0,
-            duration: 0.5,
-            repeat: -1,
-            yoyo: true,
-            ease: "steps(1)"
-        });
-
-        // Mouse-driven 3D tilt on mockup
-        const handleMouseMove = (e) => {
-            const rect = section.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-            gsap.to(mockupRef.current, {
-                rotateY: x * 6,
-                rotateX: -y * 4,
-                duration: 0.8,
-                ease: "power2.out"
+        let ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    end: "bottom center",
+                    scrub: 1.5,
+                }
             });
-        };
 
-        const handleMouseLeave = () => {
-            gsap.to(mockupRef.current, {
+            tl.to(mockupRef.current, {
                 rotateY: 0,
                 rotateX: 0,
-                duration: 1,
-                ease: "elastic.out(1, 0.5)"
-            });
-        };
+                x: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.5,
+                ease: "power3.out"
+            })
+                .fromTo(titleRef.current,
+                    { x: -60, opacity: 0, filter: "blur(8px)" },
+                    { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
+                    "-=1.2"
+                )
+                .fromTo(descRef.current,
+                    { x: -40, opacity: 0, filter: "blur(6px)" },
+                    { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
+                    "-=0.8"
+                )
+                .fromTo(filesRef.current,
+                    { x: -20, opacity: 0 },
+                    { x: 0, opacity: 1, stagger: 0.08, duration: 0.3, ease: "power2.out" },
+                    "-=0.6"
+                );
 
-        section.addEventListener('mousemove', handleMouseMove);
-        section.addEventListener('mouseleave', handleMouseLeave);
+            tl.fromTo(linesRef.current,
+                { opacity: 0, x: 10 },
+                { opacity: 1, x: 0, stagger: 0.06, duration: 0.2, ease: "power2.out" },
+                "-=0.3"
+            )
+                .fromTo(badgeRef.current,
+                    { y: 15, opacity: 0, scale: 0.9 },
+                    { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" },
+                    "-=0.2"
+                );
+
+            // Background glow follows scroll
+            tl.fromTo(glowRef.current,
+                { opacity: 0, scale: 0.5 },
+                { opacity: 1, scale: 1, duration: 1.5, ease: "power2.out" },
+                0
+            );
+
+            // Blinking cursor (independent, non-scrubbed)
+            gsap.to(cursorRef.current, {
+                opacity: 0,
+                duration: 0.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "steps(1)"
+            });
+
+            // Mouse-driven 3D tilt on mockup
+            handleMouseMove = (e) => {
+                const rect = section.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+                gsap.to(mockupRef.current, {
+                    rotateY: x * 6,
+                    rotateX: -y * 4,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            };
+
+            handleMouseLeave = () => {
+                gsap.to(mockupRef.current, {
+                    rotateY: 0,
+                    rotateX: 0,
+                    duration: 1,
+                    ease: "elastic.out(1, 0.5)"
+                });
+            };
+
+            section.addEventListener('mousemove', handleMouseMove);
+            section.addEventListener('mouseleave', handleMouseLeave);
+        }, sectionRef);
 
         return () => {
-            section.removeEventListener('mousemove', handleMouseMove);
-            section.removeEventListener('mouseleave', handleMouseLeave);
-            ScrollTrigger.getAll().forEach(t => t.kill());
+            if (handleMouseMove) section.removeEventListener('mousemove', handleMouseMove);
+            if (handleMouseLeave) section.removeEventListener('mouseleave', handleMouseLeave);
+            ctx.revert();
         };
     }, []);
 

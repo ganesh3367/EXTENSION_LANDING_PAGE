@@ -28,102 +28,103 @@ const HowItWorks = () => {
 
         if (!section || steps.length < 3) return;
 
-        gsap.set(steps, { autoAlpha: 0, x: 100, scale: 0.95 });
-        gsap.set(steps[0], { autoAlpha: 1, x: 0, scale: 1 });
-        gsap.set(glow, { xPercent: -50, yPercent: -50, left: '50%', top: '50%' });
+        let ctx = gsap.context(() => {
+            gsap.set(steps, { autoAlpha: 0, x: 100, scale: 0.95 });
+            gsap.set(steps[0], { autoAlpha: 1, x: 0, scale: 1 });
+            gsap.set(glow, { xPercent: -50, yPercent: -50, left: '50%', top: '50%' });
 
-        gsap.fromTo([title, subtitle],
-            { y: 50, opacity: 0, filter: 'blur(10px)' },
-            {
-                y: 0,
-                opacity: 1,
-                filter: 'blur(0px)',
-                duration: 1.2,
-                stagger: 0.2,
-                ease: "power3.out",
+            gsap.fromTo([title, subtitle],
+                { y: 50, opacity: 0, filter: 'blur(10px)' },
+                {
+                    y: 0,
+                    opacity: 1,
+                    filter: 'blur(0px)',
+                    duration: 1.2,
+                    stagger: 0.2,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 70%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+
+            const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: section,
-                    start: "top 70%",
-                    toggleActions: "play none none reverse"
+                    start: "top top",
+                    end: "+=3500",
+                    pin: true,
+                    scrub: 0.8,
+                    anticipatePin: 1
                 }
+            });
+
+            if (stepDots.length >= 3) {
+                gsap.set(stepDots[0], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)' });
             }
-        );
 
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: "top top",
-                end: "+=3500",
-                pin: true,
-                scrub: 0.8,
-                anticipatePin: 1
-            }
-        });
+            tl.to(steps[0], {
+                autoAlpha: 0,
+                x: -100,
+                rotationY: 5,
+                scale: 0.95,
+                duration: 1.5,
+                ease: "power2.inOut"
+            })
+                .fromTo(steps[1],
+                    { autoAlpha: 0, x: 100, rotationY: -5, scale: 0.95 },
+                    { autoAlpha: 1, x: 0, rotationY: 0, scale: 1, duration: 1.5, ease: "power2.out" },
+                    "<0.2"
+                )
+                .to(glow, { left: '40%', opacity: 0.8, duration: 1.5 }, "<")
+                .to(stepDots[0], { scale: 1, background: 'rgba(255,255,255,0.2)', boxShadow: '0 0 0 transparent', duration: 0.5 }, "<")
+                .to(stepDots[1], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)', duration: 0.5 }, "<0.3");
 
-        if (stepDots.length >= 3) {
-            gsap.set(stepDots[0], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)' });
-        }
-
-        tl.to(steps[0], {
-            autoAlpha: 0,
-            x: -100,
-            rotationY: 5,
-            scale: 0.95,
-            duration: 1.5,
-            ease: "power2.inOut"
-        })
-            .fromTo(steps[1],
-                { autoAlpha: 0, x: 100, rotationY: -5, scale: 0.95 },
-                { autoAlpha: 1, x: 0, rotationY: 0, scale: 1, duration: 1.5, ease: "power2.out" },
-                "<0.2"
-            )
-            .to(glow, { left: '40%', opacity: 0.8, duration: 1.5 }, "<")
-            .to(stepDots[0], { scale: 1, background: 'rgba(255,255,255,0.2)', boxShadow: '0 0 0 transparent', duration: 0.5 }, "<")
-            .to(stepDots[1], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)', duration: 0.5 }, "<0.3");
-
-        tl.to(steps[1], {
-            autoAlpha: 0,
-            x: -100,
-            rotationY: 5,
-            scale: 0.95,
-            duration: 1.5,
-            ease: "power2.inOut"
-        }, "+=0.3")
-            .fromTo(steps[2],
-                { autoAlpha: 0, x: 100, rotationY: -5, scale: 0.95 },
-                { autoAlpha: 1, x: 0, rotationY: 0, scale: 1, duration: 1.5, ease: "power2.out" },
-                "<0.2"
-            )
-            .to(glow, { left: '60%', opacity: 1, duration: 1.5 }, "<")
-            .to(stepDots[1], { scale: 1, background: 'rgba(255,255,255,0.2)', boxShadow: '0 0 0 transparent', duration: 0.5 }, "<")
-            .to(stepDots[2], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)', duration: 0.5 }, "<0.3");
+            tl.to(steps[1], {
+                autoAlpha: 0,
+                x: -100,
+                rotationY: 5,
+                scale: 0.95,
+                duration: 1.5,
+                ease: "power2.inOut"
+            }, "+=0.3")
+                .fromTo(steps[2],
+                    { autoAlpha: 0, x: 100, rotationY: -5, scale: 0.95 },
+                    { autoAlpha: 1, x: 0, rotationY: 0, scale: 1, duration: 1.5, ease: "power2.out" },
+                    "<0.2"
+                )
+                .to(glow, { left: '60%', opacity: 1, duration: 1.5 }, "<")
+                .to(stepDots[1], { scale: 1, background: 'rgba(255,255,255,0.2)', boxShadow: '0 0 0 transparent', duration: 0.5 }, "<")
+                .to(stepDots[2], { scale: 1.3, background: '#fff', boxShadow: '0 0 15px rgba(255,255,255,0.6)', duration: 0.5 }, "<0.3");
 
 
-        // "ALIVE" ANIMATIONS (Independent Loops)
-        visuals.forEach((visual, i) => {
-            if (!visual) return;
-            gsap.to(visual, {
-                y: -20, // Gentler float
-                duration: 4 + i,
+            // "ALIVE" ANIMATIONS (Independent Loops)
+            visuals.forEach((visual, i) => {
+                if (!visual) return;
+                gsap.to(visual, {
+                    y: -20, // Gentler float
+                    duration: 4 + i,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: i * 0.5
+                });
+            });
+
+            // Pulse Glow
+            gsap.to(glow, {
+                scale: 1.2,
+                duration: 8,
                 repeat: -1,
                 yoyo: true,
-                ease: "sine.inOut",
-                delay: i * 0.5
+                ease: "sine.inOut"
             });
-        });
-
-        // Pulse Glow
-        gsap.to(glow, {
-            scale: 1.2,
-            duration: 8,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
+        }, sectionRef);
 
         return () => {
-            ScrollTrigger.getAll().forEach(t => t.kill());
-            tl.kill();
+            ctx.revert();
         };
     }, []);
 

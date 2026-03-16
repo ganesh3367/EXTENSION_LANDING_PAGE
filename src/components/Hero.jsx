@@ -26,139 +26,142 @@ const Hero = () => {
 
     useEffect(() => {
         const section = sectionRef.current;
-
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-        tl.fromTo(eyebrowRef.current,
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1, delay: 0.2 }
-        )
-            .fromTo(titleRef.current,
-                { y: 50, opacity: 0, filter: "blur(10px)" },
-                { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, ease: "power4.out" },
-                "-=0.7"
-            )
-            .fromTo(subtitleRef.current,
-                { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1 },
-                "-=0.8"
-            )
-            .fromTo(ctaRef.current,
-                { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1 },
-                "-=0.8"
-            )
-            .fromTo(scrollRef.current,
-                { opacity: 0 },
-                { opacity: 0.7, duration: 1 },
-                "-=0.5"
-            );
-
-        gsap.fromTo([titleRef.current, subtitleRef.current, ctaRef.current],
-            { y: 0, opacity: 1 },
-            {
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top top",
-                    end: "bottom center",
-                    scrub: 1,
-                    toggleActions: "play reverse play reverse"
-                },
-                y: -100,
-                opacity: 0,
-                stagger: 0.1,
-                immediateRender: false
-            }
-        );
-
-        // 3. Mouse Movement Parallax
-        const handleMouseMove = (e) => {
-            const { clientX, clientY } = e;
-            const x = (clientX / window.innerWidth - 0.5) * 2; // -1 to 1
-            const y = (clientY / window.innerHeight - 0.5) * 2; // -1 to 1
-
-            // Move glow
-            gsap.to(glowRef.current, {
-                x: x * 50,
-                y: y * 50,
-                duration: 2,
-                ease: "power2.out"
-            });
-
-            // Move floaters with different intensities
-            floatersRef.current.forEach((floater, i) => {
-                const depth = (i + 1) * 20;
-                gsap.to(floater, {
-                    x: x * depth,
-                    y: y * depth,
-                    duration: 1.5,
-                    ease: "power2.out"
-                });
-            });
-
-            // Subtle tilt for title
-            gsap.to(titleRef.current, {
-                x: x * 10,
-                y: y * 5,
-                duration: 2,
-                ease: "power2.out"
-            });
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-
-        // 4. Button Magnetic Effect
         const btnWrapper = heroBtnWrapperRef.current;
         const btnPrimary = heroBtnPrimaryRef.current;
+        
+        let handleMouseMove;
+        let handleBtnMouseMove;
+        let handleBtnMouseLeave;
 
-        // Pulse animation for button
-        if (btnPrimary) {
-            gsap.to(btnPrimary, {
-                scale: 1.05,
-                duration: 1.5,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut"
-            });
-        }
+        let ctx = gsap.context(() => {
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
+            tl.fromTo(eyebrowRef.current,
+                { y: 30, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, delay: 0.2 }
+            )
+                .fromTo(titleRef.current,
+                    { y: 50, opacity: 0, filter: "blur(10px)" },
+                    { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, ease: "power4.out" },
+                    "-=0.7"
+                )
+                .fromTo(subtitleRef.current,
+                    { y: 30, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 1 },
+                    "-=0.8"
+                )
+                .fromTo(ctaRef.current,
+                    { y: 30, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 1 },
+                    "-=0.8"
+                )
+                .fromTo(scrollRef.current,
+                    { opacity: 0 },
+                    { opacity: 0.7, duration: 1 },
+                    "-=0.5"
+                );
 
-        const handleBtnMouseMove = (e) => {
-            if (!btnWrapper || !btnPrimary) return;
-            const rect = btnWrapper.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
+            gsap.fromTo([titleRef.current, subtitleRef.current, ctaRef.current],
+                { y: 0, opacity: 1 },
+                {
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top top",
+                        end: "bottom center",
+                        scrub: 1,
+                        toggleActions: "play reverse play reverse"
+                    },
+                    y: -100,
+                    opacity: 0,
+                    stagger: 0.1,
+                    immediateRender: false
+                }
+            );
 
-            gsap.to(btnPrimary, {
-                x: x * 0.3,
-                y: y * 0.3,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        };
+            // 3. Mouse Movement Parallax
+            handleMouseMove = (e) => {
+                const { clientX, clientY } = e;
+                const x = (clientX / window.innerWidth - 0.5) * 2; // -1 to 1
+                const y = (clientY / window.innerHeight - 0.5) * 2; // -1 to 1
 
-        const handleBtnMouseLeave = () => {
-            if (!btnPrimary) return;
-            gsap.to(btnPrimary, {
-                x: 0,
-                y: 0,
-                duration: 0.5,
-                ease: "elastic.out(1, 0.3)"
-            });
-        };
+                // Move glow
+                gsap.to(glowRef.current, {
+                    x: x * 50,
+                    y: y * 50,
+                    duration: 2,
+                    ease: "power2.out"
+                });
 
-        if (btnWrapper) {
-            btnWrapper.addEventListener('mousemove', handleBtnMouseMove);
-            btnWrapper.addEventListener('mouseleave', handleBtnMouseLeave);
-        }
+                // Move floaters with different intensities
+                floatersRef.current.forEach((floater, i) => {
+                    const depth = (i + 1) * 20;
+                    gsap.to(floater, {
+                        x: x * depth,
+                        y: y * depth,
+                        duration: 1.5,
+                        ease: "power2.out"
+                    });
+                });
+
+                // Subtle tilt for title
+                gsap.to(titleRef.current, {
+                    x: x * 10,
+                    y: y * 5,
+                    duration: 2,
+                    ease: "power2.out"
+                });
+            };
+
+            window.addEventListener('mousemove', handleMouseMove);
+
+            // Pulse animation for button
+            if (btnPrimary) {
+                gsap.to(btnPrimary, {
+                    scale: 1.05,
+                    duration: 1.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+
+            handleBtnMouseMove = (e) => {
+                if (!btnWrapper || !btnPrimary) return;
+                const rect = btnWrapper.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+
+                gsap.to(btnPrimary, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            };
+
+            handleBtnMouseLeave = () => {
+                if (!btnPrimary) return;
+                gsap.to(btnPrimary, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            };
+
+            if (btnWrapper) {
+                btnWrapper.addEventListener('mousemove', handleBtnMouseMove);
+                btnWrapper.addEventListener('mouseleave', handleBtnMouseLeave);
+            }
+        }, sectionRef);
 
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
+            if (handleMouseMove) window.removeEventListener('mousemove', handleMouseMove);
             if (btnWrapper) {
-                btnWrapper.removeEventListener('mousemove', handleBtnMouseMove);
-                btnWrapper.removeEventListener('mouseleave', handleBtnMouseLeave);
+                if (handleBtnMouseMove) btnWrapper.removeEventListener('mousemove', handleBtnMouseMove);
+                if (handleBtnMouseLeave) btnWrapper.removeEventListener('mouseleave', handleBtnMouseLeave);
             }
-            ScrollTrigger.getAll().forEach(t => t.kill());
+            ctx.revert();
         };
     }, []);
 

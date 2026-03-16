@@ -154,7 +154,7 @@ const Profile = () => {
                 </div>
                 <div className="detail-row">
                   <label>Member Since</label>
-                  <span>{new Date(currentUser.metadata.creationTime).toLocaleDateString()}</span>
+                  <span>{currentUser.metadata?.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString() : 'Recently'}</span>
                 </div>
               </div>
               

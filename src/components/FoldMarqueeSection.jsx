@@ -39,72 +39,52 @@ const FoldMarqueeSection = () => {
 
         if (!section || strips.length === 0) return;
 
-        // Create a timeline linked to the scroll of the entire section
-        // "Slow the scroll time little bit as user need to scroll more for this"
-        // We use 'pin' to hold the section in place while the user scrolls.
-        // 'end: "+=200%"' means the animation plays over 200% of the viewport height.
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: "top top", // Start when section hits top
-                end: "+=200%",    // User scrolls 2 screens worth
-                pin: true,        // Pin the section
-                scrub: 1,         // Smooth scrubbing
-                anticipatePin: 1
-            }
-        });
+        let ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: "+=200%",
+                    pin: true,
+                    scrub: 1,
+                    anticipatePin: 1
+                }
+            });
 
-        // Loop purely to set initial state if needed
-        // but GSAP .to() usually handles it.
+            strips.forEach((strip, index) => {
+                const direction = stripsData[index].direction;
+                const marqueeContent = strip.querySelector('.marquee-content');
 
-        strips.forEach((strip, index) => {
-            const direction = stripsData[index].direction;
-            const marqueeContent = strip.querySelector('.marquee-content');
+                tl.to(marqueeContent, {
+                    xPercent: direction * -30,
+                    ease: "none"
+                }, 0);
 
-            // 1. Horizontal Scroll Motion (Slower/longer feel because of the pinned distance)
-            // We want it to move significantly.
-            tl.to(marqueeContent, {
-                xPercent: direction * -30, // Move 30% of the long width
-                ease: "none"
-            }, 0);
+                const startRot = index % 2 === 0 ? 15 : -15;
+                const endRot = index % 2 === 0 ? -5 : 5;
 
-            // 2. 3D Fold / Perspective Effect - "Make it more alive"
-            // We animate RotateX and Z to create a "breathing" or "folding" motion.
+                gsap.set(strip, { rotateX: startRot, z: -50, opacity: 0.8 });
 
-            // Alternating initial tilts?
-            // Let's animate from a slight tilt TO another tilt.
-            const startRot = index % 2 === 0 ? 15 : -15;
-            const endRot = index % 2 === 0 ? -5 : 5;
-
-            // Set initial state immediately (before animation starts)
-            gsap.set(strip, { rotateX: startRot, z: -50, opacity: 0.8 });
-
-            tl.to(strip, {
-                rotateX: endRot,
-                z: 0, // Come closer (more alive)
-                opacity: 1, // Brighten up
-                ease: "power1.inOut" // Non-linear ease for "alive" feel
-            }, 0);
-
-            // 3. The "Last Strip Fold Away"
-            if (index === strips.length - 1) {
-                // It starts visible and folds away at the END of the scroll
-                // We'll add a specific tween for the last part of the timeline
                 tl.to(strip, {
-                    rotateX: -90,
-                    opacity: 0,
-                    z: -200,
-                    ease: "power2.in"
-                }, ">-0.5"); // Start overlapping strictly near end
-            }
+                    rotateX: endRot,
+                    z: 0,
+                    opacity: 1,
+                    ease: "power1.inOut"
+                }, 0);
 
-            // 4. Parallax / Stagger ? 
-            // Let's stagger the starts slightly for "alive" organic feel
-            // Actually, marquee should be synced, but the 3D fold can stagger.
-        });
+                if (index === strips.length - 1) {
+                    tl.to(strip, {
+                        rotateX: -90,
+                        opacity: 0,
+                        z: -200,
+                        ease: "power2.in"
+                    }, ">-0.5");
+                }
+            });
+        }, sectionRef);
 
         return () => {
-            ScrollTrigger.getAll().forEach(t => t.kill());
+            ctx.revert();
         };
     }, []);
 

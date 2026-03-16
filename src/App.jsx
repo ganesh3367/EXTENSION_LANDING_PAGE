@@ -27,16 +27,6 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Refresh ScrollTrigger to ensure animations are calculated correctly for the new page layout
-    ScrollTrigger.refresh();
-    
-    // Safety delay for content that might render asynchronously
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-      console.log("Global: ScrollTrigger refreshed");
-    }, 100);
-    
-    return () => clearTimeout(timer);
   }, [pathname]);
   return null;
 };

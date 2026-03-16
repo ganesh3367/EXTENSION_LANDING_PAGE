@@ -47,56 +47,11 @@ const BenefitsStory = () => {
         const leftCol = leftColRef.current;
         const rightCol = rightColRef.current;
         const previewEl = previewRef.current;
-        const benefitBlocks = gsap.utils.toArray('.benefit-block');
 
         if (!container || !leftCol || !rightCol) return;
 
-        // 1. Pinning
-        ScrollTrigger.create({
-            trigger: container,
-            start: "top top",
-            end: "bottom bottom",
-            pin: leftCol,
-            // markers: true
-        });
-
-        // 2. Active State Logic on Scroll
-        benefitBlocks.forEach((block, i) => {
-            ScrollTrigger.create({
-                trigger: block,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => updateActive(i),
-                onEnterBack: () => updateActive(i),
-                onLeave: () => { if (i === benefits.length - 1) { } }, // keep last active if needed
-                toggleClass: { targets: block, className: "active" }
-            });
-
-            // Opacity fade for non-active blocks
-            gsap.fromTo(block,
-                { opacity: 0.3 },
-                {
-                    opacity: 1,
-                    duration: 0.5,
-                    scrollTrigger: {
-                        trigger: block,
-                        start: "top 60%",
-                        end: "bottom 60%",
-                        toggleActions: "play reverse play reverse"
-                    }
-                }
-            );
-        });
-
         const updateActive = (index) => {
             setActiveStep(index);
-            // Animate Preview Transition
-            // Simple crossfade logic
-            // We can target specific elements inside preview based on index, 
-            // but since we render conditionally or via map, React state update triggers re-render.
-            // For smoother GSAP transition of React state changes, we might animate the container opacity relative to state change?
-            // Let's rely on CSS transition or quick GSAP flicker.
-
             // "Blur -> Sharp" transition
             gsap.fromTo(previewEl,
                 { filter: 'blur(10px)', opacity: 0.5, scale: 0.95 },
@@ -104,8 +59,48 @@ const BenefitsStory = () => {
             );
         };
 
+        let ctx = gsap.context(() => {
+            const benefitBlocks = gsap.utils.toArray('.benefit-block');
+
+            // 1. Pinning
+            ScrollTrigger.create({
+                trigger: container,
+                start: "top top",
+                end: "bottom bottom",
+                pin: leftCol,
+            });
+
+            // 2. Active State Logic on Scroll
+            benefitBlocks.forEach((block, i) => {
+                ScrollTrigger.create({
+                    trigger: block,
+                    start: "top center",
+                    end: "bottom center",
+                    onEnter: () => updateActive(i),
+                    onEnterBack: () => updateActive(i),
+                    onLeave: () => { if (i === benefits.length - 1) { } }, // keep last active if needed
+                    toggleClass: { targets: block, className: "active" }
+                });
+
+                // Opacity fade for non-active blocks
+                gsap.fromTo(block,
+                    { opacity: 0.3 },
+                    {
+                        opacity: 1,
+                        duration: 0.5,
+                        scrollTrigger: {
+                            trigger: block,
+                            start: "top 60%",
+                            end: "bottom 60%",
+                            toggleActions: "play reverse play reverse"
+                        }
+                    }
+                );
+            });
+        }, containerRef);
+
         return () => {
-            ScrollTrigger.getAll().forEach(t => t.kill());
+            ctx.revert();
         };
     }, []);
 
