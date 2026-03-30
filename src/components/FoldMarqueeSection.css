@@ -1,15 +1,13 @@
 .fold-marquee-section {
     position: relative;
-    /* padding is handled by the pinned container usually, but let's keep some breathing room if needed */
     background-color: transparent;
     perspective: 1500px;
-    z-index: 5;
-    /* We will remove fixed padding because pinning might handle spacing */
     height: 100vh;
-    /* Make it full height for the pin to look good */
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
 }
 
 .fold-marquee-container {

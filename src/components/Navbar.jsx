@@ -36,7 +36,6 @@ const Navbar = () => {
                     {pathname === '/' ? (
                         <>
                             <a href="#features" className="nav-link">Features</a>
-                            <a href="#how-it-works" className="nav-link">How it works</a>
                             <a href="#benefits" className="nav-link">Benefits</a>
                         </>
                     ) : (

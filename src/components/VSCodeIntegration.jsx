@@ -13,21 +13,14 @@ const VSCodeIntegration = () => {
     const descRef = useRef(null);
     const sidebarRef = useRef(null);
     const cursorRef = useRef(null);
-    const linesRef = useRef([]);
-    const filesRef = useRef([]);
     const glowRef = useRef(null);
     const badgeRef = useRef(null);
-
-    const addToLines = (el) => {
-        if (el && !linesRef.current.includes(el)) linesRef.current.push(el);
-    };
-    const addToFiles = (el) => {
-        if (el && !filesRef.current.includes(el)) filesRef.current.push(el);
-    };
 
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
+        const files = gsap.utils.toArray(section.querySelectorAll('.file-item'));
+        const lines = gsap.utils.toArray(section.querySelectorAll('.editor-lines .code-line'));
 
         let handleMouseMove;
         let handleMouseLeave;
@@ -61,13 +54,13 @@ const VSCodeIntegration = () => {
                     { x: 0, opacity: 1, filter: "blur(0px)", duration: 1, ease: "power3.out" },
                     "-=0.8"
                 )
-                .fromTo(filesRef.current,
+                .fromTo(files,
                     { x: -20, opacity: 0 },
                     { x: 0, opacity: 1, stagger: 0.08, duration: 0.3, ease: "power2.out" },
                     "-=0.6"
                 );
 
-            tl.fromTo(linesRef.current,
+            tl.fromTo(lines,
                 { opacity: 0, x: 10 },
                 { opacity: 1, x: 0, stagger: 0.06, duration: 0.2, ease: "power2.out" },
                 "-=0.3"
@@ -168,59 +161,59 @@ const VSCodeIntegration = () => {
                         <div className="sidebar" ref={sidebarRef}>
                             <div className="sidebar-header">Explorer</div>
                             <div className="file-list">
-                                <div className="file-item" ref={addToFiles}>📁 src</div>
-                                <div className="file-item" ref={addToFiles}>&nbsp;&nbsp;📁 components</div>
-                                <div className="file-item active" ref={addToFiles}>&nbsp;&nbsp;⚛️ App.jsx</div>
-                                <div className="file-item" ref={addToFiles}>&nbsp;&nbsp;📄 index.css</div>
-                                <div className="file-item" ref={addToFiles}>📦 package.json</div>
+                                <div className="file-item">📁 src</div>
+                                <div className="file-item">&nbsp;&nbsp;📁 components</div>
+                                <div className="file-item active">&nbsp;&nbsp;⚛️ App.jsx</div>
+                                <div className="file-item">&nbsp;&nbsp;📄 index.css</div>
+                                <div className="file-item">📦 package.json</div>
                             </div>
                         </div>
 
                         {/* Editor */}
                         <div className="editor-area">
                             <div className="editor-lines">
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">1</span>
                                     <span className="keyword">import</span> React <span className="keyword">from</span> <span className="str">'react'</span>;
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">2</span>
                                     <span className="keyword">import</span> {'{'} <span className="comp">Header</span> {'}'} <span className="keyword">from</span> <span className="str">'./components'</span>;
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">3</span>
                                     &nbsp;
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">4</span>
                                     <span className="keyword">export default function</span> <span className="comp">App</span>() {'{'}
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">5</span>
                                     &nbsp;&nbsp;<span className="keyword">return</span> (
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">6</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="comp">div</span> className=<span className="str">"app"</span>&gt;
                                 </div>
-                                <div className="code-line active-line" ref={addToLines}>
+                                <div className="code-line active-line">
                                     <span className="line-num">7</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="comp">Header</span> /&gt;
                                     <span className="vsi-cursor" ref={cursorRef}>|</span>
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">8</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="comp">MainContent</span> /&gt;
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">9</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span className="comp">div</span>&gt;
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">10</span>
                                     &nbsp;&nbsp;);
                                 </div>
-                                <div className="code-line" ref={addToLines}>
+                                <div className="code-line">
                                     <span className="line-num">11</span>
                                     {'}'}
                                 </div>

@@ -49,6 +49,7 @@ const LiveTransformation = () => {
                     start: "center center",
                     end: "+=2000", // Give it time
                     pin: container,
+                    pinSpacing: true,
                     scrub: 1,
                     anticipatePin: 1,
                     invalidateOnRefresh: true

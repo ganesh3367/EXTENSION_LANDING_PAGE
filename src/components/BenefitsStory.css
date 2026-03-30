@@ -4,6 +4,7 @@
     position: relative;
     padding: 6rem 0;
     overflow: hidden;
+    isolation: isolate;
 }
 
 .bs-container {
@@ -22,8 +23,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 2;
     padding: 1rem 0;
 

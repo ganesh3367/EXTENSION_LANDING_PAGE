@@ -14,7 +14,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Hero = lazy(() => import('./components/Hero'));
 const FoldMarqueeSection = lazy(() => import('./components/FoldMarqueeSection'));
-const HowItWorks = lazy(() => import('./components/HowItWorks'));
 const LiveTransformation = lazy(() => import('./components/LiveTransformation'));
 const BenefitsStory = lazy(() => import('./components/BenefitsStory'));
 const IntegrationSection = lazy(() => import('./components/VSCodeIntegration'));
@@ -75,7 +74,6 @@ function App() {
                         <Hero />
                         <FoldMarqueeSection />
                         <Features />
-                        <HowItWorks />
                         <LiveTransformation />
                         <BenefitsStory />
                         <IntegrationSection />

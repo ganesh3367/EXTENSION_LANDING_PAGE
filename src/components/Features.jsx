@@ -3,30 +3,36 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Features.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Features = () => {
     const containerRef = useRef(null);
-    const cardsRef = useRef([]);
 
     useEffect(() => {
-        gsap.to(cardsRef.current, {
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top 80%",
-            },
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power3.out",
-            clearProps: "transform" // clear transform so CSS hover works
-        });
-    }, []);
+        const container = containerRef.current;
+        const cards = container ? gsap.utils.toArray(container.querySelectorAll('.feature-card')) : [];
 
-    const addToRefs = (el) => {
-        if (el && !cardsRef.current.includes(el)) {
-            cardsRef.current.push(el);
-        }
-    };
+        if (!container || cards.length === 0) return;
+
+        const ctx = gsap.context(() => {
+            gsap.to(cards, {
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top 80%",
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                clearProps: "transform"
+            });
+        }, containerRef);
+
+        return () => {
+            ctx.revert();
+        };
+    }, []);
 
     const features = [
         {
@@ -56,7 +62,7 @@ const Features = () => {
             <div className="container">
                 <div className="features-grid">
                     {features.map((f, i) => (
-                        <div className="feature-card" key={i} ref={addToRefs}>
+                        <div className="feature-card" key={i}>
                             <div className="feature-icon">{f.icon}</div>
                             <h3 className="feature-title">{f.title}</h3>
                             <p className="feature-desc">{f.desc}</p>

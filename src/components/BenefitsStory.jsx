@@ -58,18 +58,20 @@ const BenefitsStory = () => {
                 }
             };
 
-            const benefitBlocks = gsap.utils.toArray('.benefit-block');
+            const benefitBlocks = gsap.utils.toArray(rightCol.querySelectorAll('.benefit-block'));
 
-            // 1. Pinning
-            ScrollTrigger.create({
-                trigger: container,
-                start: "top top",
-                end: "bottom bottom",
-                pin: leftCol,
-                invalidateOnRefresh: true
+            ScrollTrigger.matchMedia({
+                "(min-width: 1025px)": () => {
+                    ScrollTrigger.create({
+                        trigger: container,
+                        start: "top top",
+                        end: "bottom bottom",
+                        pin: leftCol,
+                        invalidateOnRefresh: true
+                    });
+                }
             });
 
-            // 2. Active State Logic on Scroll
             benefitBlocks.forEach((block, i) => {
                 ScrollTrigger.create({
                     trigger: block,
@@ -80,7 +82,6 @@ const BenefitsStory = () => {
                     toggleClass: { targets: block, className: "active" }
                 });
 
-                // Opacity fade for non-active blocks
                 gsap.fromTo(block,
                     { opacity: 0.3 },
                     {

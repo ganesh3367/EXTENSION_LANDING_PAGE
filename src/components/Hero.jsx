@@ -199,8 +199,8 @@ const Hero = () => {
                             Install Extension
                         </a>
                     </div>
-                    <a href="#how-it-works" className="hero-btn hero-btn-secondary" style={{ textDecoration: 'none' }}>
-                        See How It Works
+                    <a href="#benefits" className="hero-btn hero-btn-secondary" style={{ textDecoration: 'none' }}>
+                        See Benefits
                     </a>
                 </div>
 

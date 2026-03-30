@@ -24,7 +24,6 @@ const Footer = () => {
                         <div className="footer-col">
                             <h4 className="footer-col-title">Product</h4>
                             <a href="#features" className="footer-link">Features</a>
-                            <a href="#how-it-works" className="footer-link">How it Works</a>
                             <a href="#benefits" className="footer-link">Benefits</a>
                             <a href="https://marketplace.visualstudio.com/items?itemName=GaneshWayal.html-to-react-js" target="_blank" rel="noopener noreferrer" className="footer-link">VS Code Marketplace</a>
                         </div>
