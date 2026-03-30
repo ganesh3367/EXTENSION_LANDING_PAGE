@@ -10,10 +10,6 @@ const LiveTransformation = () => {
     const containerRef = useRef(null);
     const headerRef = useRef(null);
     const editorRef = useRef(null);
-
-    // Code Refs - Arrays for line-by-line animation
-    const htmlLinesRef = useRef([]);
-    const jsxLinesRef = useRef([]);
     const badgeRef = useRef(null);
 
     useEffect(() => {
@@ -21,11 +17,11 @@ const LiveTransformation = () => {
         const container = containerRef.current;
         const header = headerRef.current;
         const editor = editorRef.current;
-        const htmlLines = htmlLinesRef.current;
-        const jsxLines = jsxLinesRef.current;
+        const htmlLines = section ? gsap.utils.toArray(section.querySelectorAll('.html-layer .code-line')) : [];
+        const jsxLines = section ? gsap.utils.toArray(section.querySelectorAll('.jsx-layer .code-line')) : [];
         const badge = badgeRef.current;
 
-        if (!section || !editor) return;
+        if (!section || !container || !editor) return;
 
         let ctx = gsap.context(() => {
             // 1. Initial State
@@ -52,9 +48,10 @@ const LiveTransformation = () => {
                     trigger: section,
                     start: "center center",
                     end: "+=2000", // Give it time
-                    pin: true,
+                    pin: container,
                     scrub: 1,
-                    anticipatePin: 1
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true
                 }
             });
 
@@ -103,10 +100,6 @@ const LiveTransformation = () => {
         };
     }, []);
 
-    // Helper for adding logic
-    const addToHtml = (el) => { if (el && !htmlLinesRef.current.includes(el)) htmlLinesRef.current.push(el); };
-    const addToJsx = (el) => { if (el && !jsxLinesRef.current.includes(el)) jsxLinesRef.current.push(el); };
-
     return (
         <section className="live-transformation" ref={sectionRef}>
             <div className="lt-glow"></div>
@@ -132,28 +125,28 @@ const LiveTransformation = () => {
 
                         {/* HTML Layer */}
                         <div className="code-layer html-layer">
-                            <div className="code-line" ref={addToHtml}><span className="comment">&lt;!-- Raw HTML --&gt;</span></div>
-                            <div className="code-line" ref={addToHtml}><span className="tag">&lt;div</span> <span className="attr">class</span>=<span className="val">"user-profile"</span>&gt;</div>
-                            <div className="code-line" ref={addToHtml} style={{ paddingLeft: '1.5rem' }}><span className="tag">&lt;img</span> <span className="attr">src</span>=<span className="val">"avatar.jpg"</span> <span className="attr">alt</span>=<span className="val">"User"</span> /&gt;</div>
-                            <div className="code-line" ref={addToHtml} style={{ paddingLeft: '1.5rem' }}><span className="tag">&lt;h3&gt;</span><span className="text">Jane Doe</span><span className="tag">&lt;/h3&gt;</span></div>
-                            <div className="code-line" ref={addToHtml} style={{ paddingLeft: '1.5rem' }}><span className="tag">&lt;button</span> <span className="attr">onclick</span>=<span className="val">"follow()"</span>&gt;</div>
-                            <div className="code-line" ref={addToHtml} style={{ paddingLeft: '3rem' }}><span className="text">Follow</span></div>
-                            <div className="code-line" ref={addToHtml} style={{ paddingLeft: '1.5rem' }}><span className="tag">&lt;/button&gt;</span></div>
-                            <div className="code-line" ref={addToHtml}><span className="tag">&lt;/div&gt;</span></div>
+                            <div className="code-line"><span className="comment">&lt;!-- Raw HTML --&gt;</span></div>
+                            <div className="code-line"><span className="tag">&lt;div</span> <span className="attr">class</span>=<span className="val">"user-profile"</span>&gt;</div>
+                            <div className="code-line" style={{ paddingLeft: '1.5rem' }}><span className="tag">&lt;img</span> <span className="attr">src</span>=<span className="val">"avatar.jpg"</span> <span className="attr">alt</span>=<span className="val">"User"</span> /&gt;</div>
+                            <div className="code-line" style={{ paddingLeft: '1.5rem' }}><span className="tag">&lt;h3&gt;</span><span className="text">Jane Doe</span><span className="tag">&lt;/h3&gt;</span></div>
+                            <div className="code-line" style={{ paddingLeft: '1.5rem' }}><span className="tag">&lt;button</span> <span className="attr">onclick</span>=<span className="val">"follow()"</span>&gt;</div>
+                            <div className="code-line" style={{ paddingLeft: '3rem' }}><span className="text">Follow</span></div>
+                            <div className="code-line" style={{ paddingLeft: '1.5rem' }}><span className="tag">&lt;/button&gt;</span></div>
+                            <div className="code-line"><span className="tag">&lt;/div&gt;</span></div>
                         </div>
 
                         {/* REACT Layer */}
                         <div className="code-layer jsx-layer">
-                            <div className="code-line" ref={addToJsx}><span className="comment">// React Component</span></div>
-                            <div className="code-line" ref={addToJsx}><span className="keyword">const</span> <span className="component">UserProfile</span> = () =&gt; (</div>
-                            <div className="code-line" ref={addToJsx} style={{ paddingLeft: '1.5rem' }}><span className="jsx-tag">&lt;div</span> <span className="prop">className</span>=<span className="val">"user-profile"</span>&gt;</div>
-                            <div className="code-line" ref={addToJsx} style={{ paddingLeft: '3rem' }}><span className="component">&lt;Avatar</span> <span className="prop">src</span>=<span className="val">"/avatar.jpg"</span> <span className="prop">alt</span>=<span className="val">"User"</span> /&gt;</div>
-                            <div className="code-line" ref={addToJsx} style={{ paddingLeft: '3rem' }}><span className="component">&lt;UserName&gt;</span>Jane Doe<span className="component">&lt;/UserName&gt;</span></div>
-                            <div className="code-line" ref={addToJsx} style={{ paddingLeft: '3rem' }}><span className="component">&lt;Button</span> <span className="prop">onClick</span>=<span className="brace">&#123;</span><span className="text">handleFollow</span><span className="brace">&#125;</span>&gt;</div>
-                            <div className="code-line" ref={addToJsx} style={{ paddingLeft: '4.5rem' }}>Follow</div>
-                            <div className="code-line" ref={addToJsx} style={{ paddingLeft: '3rem' }}><span className="component">&lt;/Button&gt;</span></div>
-                            <div className="code-line" ref={addToJsx} style={{ paddingLeft: '1.5rem' }}><span className="jsx-tag">&lt;/div&gt;</span></div>
-                            <div className="code-line" ref={addToJsx}>);</div>
+                            <div className="code-line"><span className="comment">// React Component</span></div>
+                            <div className="code-line"><span className="keyword">const</span> <span className="component">UserProfile</span> = () =&gt; (</div>
+                            <div className="code-line" style={{ paddingLeft: '1.5rem' }}><span className="jsx-tag">&lt;div</span> <span className="prop">className</span>=<span className="val">"user-profile"</span>&gt;</div>
+                            <div className="code-line" style={{ paddingLeft: '3rem' }}><span className="component">&lt;Avatar</span> <span className="prop">src</span>=<span className="val">"/avatar.jpg"</span> <span className="prop">alt</span>=<span className="val">"User"</span> /&gt;</div>
+                            <div className="code-line" style={{ paddingLeft: '3rem' }}><span className="component">&lt;UserName&gt;</span>Jane Doe<span className="component">&lt;/UserName&gt;</span></div>
+                            <div className="code-line" style={{ paddingLeft: '3rem' }}><span className="component">&lt;Button</span> <span className="prop">onClick</span>=<span className="brace">&#123;</span><span className="text">handleFollow</span><span className="brace">&#125;</span>&gt;</div>
+                            <div className="code-line" style={{ paddingLeft: '4.5rem' }}>Follow</div>
+                            <div className="code-line" style={{ paddingLeft: '3rem' }}><span className="component">&lt;/Button&gt;</span></div>
+                            <div className="code-line" style={{ paddingLeft: '1.5rem' }}><span className="jsx-tag">&lt;/div&gt;</span></div>
+                            <div className="code-line">);</div>
                         </div>
 
                     </div>

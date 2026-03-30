@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../contexts/AuthContext';
 import './Auth.css';
 import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
 
@@ -22,8 +22,9 @@ const Login = () => {
     } catch (err) {
       setError('Failed to log in. Please check your credentials.');
       console.error(err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   async function handleGoogleSignIn() {
@@ -35,8 +36,9 @@ const Login = () => {
     } catch (err) {
       setError('Failed to sign in with Google.');
       console.error(err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (

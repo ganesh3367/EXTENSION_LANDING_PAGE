@@ -7,10 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HowItWorks = () => {
     const sectionRef = useRef(null);
-    const containerRef = useRef(null);
-    const stepsRef = useRef([]); // Will hold step wrapper elements
-    const visualsRef = useRef([]); // Will hold visual card elements
-    const stepDotsRef = useRef([]);
+    const pinnedContainerRef = useRef(null);
     const glowRef = useRef(null);
 
     // Header Refs
@@ -19,14 +16,15 @@ const HowItWorks = () => {
 
     useEffect(() => {
         const section = sectionRef.current;
-        const steps = stepsRef.current;
-        const visuals = visualsRef.current;
-        const stepDots = stepDotsRef.current;
+        const pinnedContainer = pinnedContainerRef.current;
+        const steps = section ? gsap.utils.toArray(section.querySelectorAll('.hiw-step')) : [];
+        const visuals = section ? gsap.utils.toArray(section.querySelectorAll('.hiw-step-visual')) : [];
+        const stepDots = section ? gsap.utils.toArray(section.querySelectorAll('.hiw-dot')) : [];
         const glow = glowRef.current;
         const title = titleRef.current;
         const subtitle = subtitleRef.current;
 
-        if (!section || steps.length < 3) return;
+        if (!section || !pinnedContainer || steps.length < 3) return;
 
         let ctx = gsap.context(() => {
             gsap.set(steps, { autoAlpha: 0, x: 100, scale: 0.95 });
@@ -55,9 +53,10 @@ const HowItWorks = () => {
                     trigger: section,
                     start: "top top",
                     end: "+=3500",
-                    pin: true,
+                    pin: pinnedContainer,
                     scrub: 0.8,
-                    anticipatePin: 1
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true
                 }
             });
 
@@ -128,16 +127,12 @@ const HowItWorks = () => {
         };
     }, []);
 
-    const addToSteps = (el) => { if (el && !stepsRef.current.includes(el)) stepsRef.current.push(el); };
-    const addToVisuals = (el) => { if (el && !visualsRef.current.includes(el)) visualsRef.current.push(el); };
-    const addToDots = (el) => { if (el && !stepDotsRef.current.includes(el)) stepDotsRef.current.push(el); };
-
     return (
         <section className="how-it-works" id="how-it-works" ref={sectionRef}>
             {/* Ambient Spot Light */}
             <div className="hiw-glow-spot" ref={glowRef}></div>
 
-            <div className="hiw-pinned-container" ref={containerRef}>
+            <div className="hiw-pinned-container" ref={pinnedContainerRef}>
 
                 <div className="hiw-header">
                     <h2 className="hiw-title" ref={titleRef}>How it works</h2>
@@ -147,7 +142,7 @@ const HowItWorks = () => {
                 <div className="hiw-steps-wrapper">
 
                     {/* STEP 1 */}
-                    <div className="hiw-step" ref={addToSteps}>
+                    <div className="hiw-step">
                         <div className="hiw-step-text">
                             <span className="step-label">Step 01</span>
                             <h3 className="step-heading">Paste your<br />HTML</h3>
@@ -155,7 +150,7 @@ const HowItWorks = () => {
                                 Drop any raw HTML into your file. It handles messy indentation, legacy tags, and weird spacing automatically.
                             </p>
                         </div>
-                        <div className="hiw-step-visual" ref={addToVisuals}>
+                        <div className="hiw-step-visual">
                             <div className="code-block-visual visual-html">
                                 <div style={{ opacity: 0.5, marginBottom: '1.5rem', display: 'flex', gap: '0.5rem' }}>
                                     <div className="vscode-light l-red"></div>
@@ -175,7 +170,7 @@ const HowItWorks = () => {
                     </div>
 
                     {/* STEP 2 */}
-                    <div className="hiw-step" ref={addToSteps}>
+                    <div className="hiw-step">
                         <div className="hiw-step-text">
                             <span className="step-label">Step 02</span>
                             <h3 className="step-heading">Run the<br />Extension</h3>
@@ -183,7 +178,7 @@ const HowItWorks = () => {
                                 Open the VS Code command palette. No config files, no complex setup. Just select and run.
                             </p>
                         </div>
-                        <div className="hiw-step-visual" ref={addToVisuals}>
+                        <div className="hiw-step-visual">
                             <div className="code-block-visual visual-vscode">
                                 <div className="vscode-header">
                                     <div className="vscode-lights">
@@ -214,7 +209,7 @@ const HowItWorks = () => {
                     </div>
 
                     {/* STEP 3 */}
-                    <div className="hiw-step" ref={addToSteps}>
+                    <div className="hiw-step">
                         <div className="hiw-step-text">
                             <span className="step-label">Step 03</span>
                             <h3 className="step-heading">Get Clean<br />React</h3>
@@ -222,7 +217,7 @@ const HowItWorks = () => {
                                 Instantly get a functional component. Props are identified, class becomes className, and tags are self-closed.
                             </p>
                         </div>
-                        <div className="hiw-step-visual" ref={addToVisuals}>
+                        <div className="hiw-step-visual">
                             <div className="code-block-visual visual-react">
                                 <div style={{ opacity: 0.5, marginBottom: '1.5rem', display: 'flex', gap: '0.5rem' }}>
                                     <div className="vscode-light l-red"></div>
@@ -246,9 +241,9 @@ const HowItWorks = () => {
                 </div>
 
                 <div className="hiw-step-dots">
-                    <div className="hiw-dot" ref={addToDots}></div>
-                    <div className="hiw-dot" ref={addToDots}></div>
-                    <div className="hiw-dot" ref={addToDots}></div>
+                    <div className="hiw-dot"></div>
+                    <div className="hiw-dot"></div>
+                    <div className="hiw-dot"></div>
                 </div>
 
             </div>

@@ -13,7 +13,6 @@ const Hero = () => {
     const titleRef = useRef(null);
     const subtitleRef = useRef(null);
     const ctaRef = useRef(null);
-    const statsRef = useRef(null);
     const glowRef = useRef(null);
     const scrollRef = useRef(null);
 
@@ -80,6 +79,7 @@ const Hero = () => {
 
             // 3. Mouse Movement Parallax
             handleMouseMove = (e) => {
+                if (!glowRef.current) return; // Guard
                 const { clientX, clientY } = e;
                 const x = (clientX / window.innerWidth - 0.5) * 2; // -1 to 1
                 const y = (clientY / window.innerHeight - 0.5) * 2; // -1 to 1
@@ -94,6 +94,7 @@ const Hero = () => {
 
                 // Move floaters with different intensities
                 floatersRef.current.forEach((floater, i) => {
+                    if (!floater) return;
                     const depth = (i + 1) * 20;
                     gsap.to(floater, {
                         x: x * depth,
@@ -104,12 +105,14 @@ const Hero = () => {
                 });
 
                 // Subtle tilt for title
-                gsap.to(titleRef.current, {
-                    x: x * 10,
-                    y: y * 5,
-                    duration: 2,
-                    ease: "power2.out"
-                });
+                if (titleRef.current) {
+                    gsap.to(titleRef.current, {
+                        x: x * 10,
+                        y: y * 5,
+                        duration: 2,
+                        ease: "power2.out"
+                    });
+                }
             };
 
             window.addEventListener('mousemove', handleMouseMove);
@@ -171,9 +174,9 @@ const Hero = () => {
         <section className="hero-section" ref={sectionRef}>
             {/* Background Elements */}
             <div className="hero-glow" ref={glowRef}></div>
-            <div className="hero-floater floater-1"></div>
-            <div className="hero-floater floater-2"></div>
-            <div className="hero-floater floater-3"></div>
+            <div className="hero-floater floater-1" ref={(el) => { floatersRef.current[0] = el; }}></div>
+            <div className="hero-floater floater-2" ref={(el) => { floatersRef.current[1] = el; }}></div>
+            <div className="hero-floater floater-3" ref={(el) => { floatersRef.current[2] = el; }}></div>
 
             <div className="container hero-container">
                 <div className="hero-eyebrow" ref={eyebrowRef}>

@@ -9,47 +9,56 @@ const CTA = () => {
     const wrapperRef = useRef(null);
 
     useEffect(() => {
-        // Pulse animation
-        gsap.to(buttonRef.current, {
-            scale: 1.05,
-            duration: 1.5,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
-        // Magnetic Effect
         const wrapper = wrapperRef.current;
         const button = buttonRef.current;
+        if (!wrapper || !button) return;
 
-        const onMouseMove = (e) => {
-            const rect = wrapper.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
+        let handleMouseMove;
+        let handleMouseLeave;
 
+        let ctx = gsap.context(() => {
+            // Pulse animation
             gsap.to(button, {
-                x: x * 0.3,
-                y: y * 0.3,
-                duration: 0.3,
-                ease: "power2.out"
+                scale: 1.05,
+                duration: 1.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
             });
-        };
 
-        const onMouseLeave = () => {
-            gsap.to(button, {
-                x: 0,
-                y: 0,
-                duration: 0.5,
-                ease: "elastic.out(1, 0.3)"
-            });
-        };
+            // Magnetic Effect
+            handleMouseMove = (e) => {
+                if (!wrapper || !button) return;
+                const rect = wrapper.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
 
-        wrapper.addEventListener('mousemove', onMouseMove);
-        wrapper.addEventListener('mouseleave', onMouseLeave);
+                gsap.to(button, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            };
+
+            handleMouseLeave = () => {
+                if (!button) return;
+                gsap.to(button, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            };
+
+            wrapper.addEventListener('mousemove', handleMouseMove);
+            wrapper.addEventListener('mouseleave', handleMouseLeave);
+        }, wrapperRef);
 
         return () => {
-            wrapper.removeEventListener('mousemove', onMouseMove);
-            wrapper.removeEventListener('mouseleave', onMouseLeave);
+            if (wrapper && handleMouseMove) wrapper.removeEventListener('mousemove', handleMouseMove);
+            if (wrapper && handleMouseLeave) wrapper.removeEventListener('mouseleave', handleMouseLeave);
+            ctx.revert();
         };
     }, []);
 

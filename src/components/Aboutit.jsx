@@ -14,6 +14,10 @@ const Aboutit = () => {
     const featuresRef = useRef(null);
 
     useEffect(() => {
+        const grid = gridRef.current;
+        const story = storyRef.current;
+        const features = featuresRef.current;
+
         let ctx = gsap.context(() => {
             // Entrance animation
             const entrance = gsap.timeline();
@@ -22,24 +26,24 @@ const Aboutit = () => {
                 .fromTo(".about-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, "-=0.6");
 
             // Scroll animations
-            if (gridRef.current) {
+            if (grid) {
                 gsap.fromTo(".about-card", { y: 50, opacity: 0 }, {
                     y: 0, opacity: 1, duration: 0.8, stagger: 0.2,
-                    scrollTrigger: { trigger: gridRef.current, start: "top 80%" }
+                    scrollTrigger: { trigger: grid, start: "top 80%" }
                 });
             }
 
-            if (storyRef.current) {
-                gsap.fromTo(storyRef.current, { opacity: 0, scale: 0.95 }, {
+            if (story) {
+                gsap.fromTo(story, { opacity: 0, scale: 0.95 }, {
                     opacity: 1, scale: 1, duration: 1, ease: "power2.out",
-                    scrollTrigger: { trigger: storyRef.current, start: "top 75%" }
+                    scrollTrigger: { trigger: story, start: "top 75%" }
                 });
             }
 
-            if (featuresRef.current) {
+            if (features) {
                 gsap.fromTo(".feature-item", { x: -30, opacity: 0 }, {
                     x: 0, opacity: 1, duration: 0.6, stagger: 0.1,
-                    scrollTrigger: { trigger: featuresRef.current, start: "top 80%" }
+                    scrollTrigger: { trigger: features, start: "top 80%" }
                 });
             }
         });

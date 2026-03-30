@@ -27,6 +27,8 @@ const VSCodeIntegration = () => {
 
     useEffect(() => {
         const section = sectionRef.current;
+        if (!section) return;
+
         let handleMouseMove;
         let handleMouseLeave;
 
@@ -84,17 +86,20 @@ const VSCodeIntegration = () => {
             );
 
             // Blinking cursor (independent, non-scrubbed)
-            gsap.to(cursorRef.current, {
-                opacity: 0,
-                duration: 0.5,
-                repeat: -1,
-                yoyo: true,
-                ease: "steps(1)"
-            });
+            if (cursorRef.current) {
+                gsap.to(cursorRef.current, {
+                    opacity: 0,
+                    duration: 0.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "steps(1)"
+                });
+            }
 
             // Mouse-driven 3D tilt on mockup
             handleMouseMove = (e) => {
-                const rect = section.getBoundingClientRect();
+                if (!sectionRef.current || !mockupRef.current) return;
+                const rect = sectionRef.current.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width - 0.5;
                 const y = (e.clientY - rect.top) / rect.height - 0.5;
 
@@ -107,6 +112,7 @@ const VSCodeIntegration = () => {
             };
 
             handleMouseLeave = () => {
+                if (!mockupRef.current) return;
                 gsap.to(mockupRef.current, {
                     rotateY: 0,
                     rotateX: 0,
@@ -120,8 +126,8 @@ const VSCodeIntegration = () => {
         }, sectionRef);
 
         return () => {
-            if (handleMouseMove) section.removeEventListener('mousemove', handleMouseMove);
-            if (handleMouseLeave) section.removeEventListener('mouseleave', handleMouseLeave);
+            if (section && handleMouseMove) section.removeEventListener('mousemove', handleMouseMove);
+            if (section && handleMouseLeave) section.removeEventListener('mouseleave', handleMouseLeave);
             ctx.revert();
         };
     }, []);

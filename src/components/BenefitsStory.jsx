@@ -10,9 +10,6 @@ const BenefitsStory = () => {
     const leftColRef = useRef(null);
     const rightColRef = useRef(null);
     const previewRef = useRef(null);
-
-    // Preview Content Refs
-    const previewContentRefs = useRef([]);
     const [activeStep, setActiveStep] = useState(0);
 
     const benefits = [
@@ -46,20 +43,21 @@ const BenefitsStory = () => {
         const container = containerRef.current;
         const leftCol = leftColRef.current;
         const rightCol = rightColRef.current;
-        const previewEl = previewRef.current;
 
         if (!container || !leftCol || !rightCol) return;
 
-        const updateActive = (index) => {
-            setActiveStep(index);
-            // "Blur -> Sharp" transition
-            gsap.fromTo(previewEl,
-                { filter: 'blur(10px)', opacity: 0.5, scale: 0.95 },
-                { filter: 'blur(0px)', opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }
-            );
-        };
-
         let ctx = gsap.context(() => {
+            const updateActive = (index) => {
+                setActiveStep(index);
+                // Sharp transition - only animate if ref exists
+                if (previewRef.current) {
+                    gsap.fromTo(previewRef.current,
+                        { filter: 'blur(10px)', opacity: 0.5, scale: 0.95 },
+                        { filter: 'blur(0px)', opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }
+                    );
+                }
+            };
+
             const benefitBlocks = gsap.utils.toArray('.benefit-block');
 
             // 1. Pinning
@@ -68,6 +66,7 @@ const BenefitsStory = () => {
                 start: "top top",
                 end: "bottom bottom",
                 pin: leftCol,
+                invalidateOnRefresh: true
             });
 
             // 2. Active State Logic on Scroll
@@ -78,7 +77,6 @@ const BenefitsStory = () => {
                     end: "bottom center",
                     onEnter: () => updateActive(i),
                     onEnterBack: () => updateActive(i),
-                    onLeave: () => { if (i === benefits.length - 1) { } }, // keep last active if needed
                     toggleClass: { targets: block, className: "active" }
                 });
 
@@ -193,7 +191,7 @@ const BenefitsStory = () => {
 
                 {/* Right Column (Scrolling) */}
                 <div className="bs-right-col" ref={rightColRef}>
-                    {benefits.map((b, i) => (
+                    {benefits.map((b) => (
                         <div key={b.id} className="benefit-block">
                             <div className="benefit-icon">{b.icon}</div>
                             <h3 className="benefit-title">{b.title}</h3>

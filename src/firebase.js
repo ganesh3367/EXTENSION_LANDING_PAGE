@@ -1,37 +1,42 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getAnalytics, isSupported } from 'firebase/analytics';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCuTs0l-kl-Rag9v_RF0IVsd6rahb8PGBI",
-  authDomain: "htmllandingpage.firebaseapp.com",
-  projectId: "htmllandingpage",
-  storageBucket: "htmllandingpage.firebasestorage.app",
-  messagingSenderId: "491393192726",
-  appId: "1:491393192726:web:40301aebcbff47288bb637",
-  measurementId: "G-XYW7BBV6VN"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyCuTs0l-kl-Rag9v_RF0IVsd6rahb8PGBI',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'htmllandingpage.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'htmllandingpage',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'htmllandingpage.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '491393192726',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:491393192726:web:40301aebcbff47288bb637',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-XYW7BBV6VN',
 };
 
-// Initialize Firebase
-console.log("Firebase: Initializing app...");
-const app = initializeApp(firebaseConfig);
+const requiredKeys = ['apiKey', 'authDomain', 'projectId', 'appId'];
+const missingConfig = requiredKeys.filter((key) => !firebaseConfig[key]);
+export const isFirebaseConfigured = missingConfig.length === 0;
 
-let analytics = null;
-try {
-  if (typeof window !== 'undefined') {
-    console.log("Firebase: Initializing analytics...");
-    analytics = getAnalytics(app);
-  }
-} catch (e) {
-  console.warn("Firebase: Analytics failed to initialize", e);
+if (!isFirebaseConfigured) {
+  console.error(`Missing Firebase config keys: ${missingConfig.join(', ')}`);
 }
 
-console.log("Firebase: Initializing auth and firestore...");
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export { analytics };
+const app = isFirebaseConfigured ? initializeApp(firebaseConfig) : null;
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;
 
-console.log("Firebase: Connected successfully");
+let analytics = null;
+if (app && typeof window !== 'undefined' && firebaseConfig.measurementId) {
+  isSupported()
+    .then((supported) => {
+      if (supported) {
+        analytics = getAnalytics(app);
+      }
+    })
+    .catch(() => {
+      analytics = null;
+    });
+}
+
+export { analytics };
 export default app;

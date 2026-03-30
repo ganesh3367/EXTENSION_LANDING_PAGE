@@ -12,6 +12,8 @@ export const useMarketplaceStats = () => {
     });
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchStats = async () => {
             try {
                 const response = await fetch(API_URL, {
@@ -28,32 +30,37 @@ export const useMarketplaceStats = () => {
                             }]
                         }],
                         flags: 914
-                    })
+                    }),
+                    signal: controller.signal
                 });
 
-                if (!response.ok) throw new Error('Network error');
+                if (!response.ok) {
+                    throw new Error(`Marketplace request failed (${response.status})`);
+                }
 
                 const data = await response.json();
                 const extension = data.results[0]?.extensions[0];
+                const statistics = extension?.statistics || [];
+                const downloadCount = statistics.find((s) => s.statisticName === 'downloadCount')?.value || 0;
+                const installCount = statistics.find((s) => s.statisticName === 'install')?.value || 0;
 
-                if (extension) {
-                    const statistics = extension.statistics;
-                    const downloadCount = statistics.find(s => s.statisticName === 'downloadCount')?.value || 0;
-                    const installCount = statistics.find(s => s.statisticName === 'install')?.value || 0;
-
-                    setStats({
-                        downloads: downloadCount,
-                        install: installCount,
-                        loading: false,
-                        error: null
-                    });
-                }
+                setStats({
+                    downloads: downloadCount,
+                    install: installCount,
+                    loading: false,
+                    error: null
+                });
             } catch (err) {
+                if (err.name === 'AbortError') {
+                    return;
+                }
                 setStats(prev => ({ ...prev, loading: false, error: err.message }));
             }
         };
 
         fetchStats();
+
+        return () => controller.abort();
     }, []);
 
     return stats;

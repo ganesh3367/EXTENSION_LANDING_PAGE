@@ -104,6 +104,13 @@
   background: rgba(255, 69, 58, 0.1);
 }
 
+.profile-error-text {
+  margin-top: 0.75rem;
+  color: #ff453a;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 /* Content Area */
 .profile-content {
   flex-grow: 1;

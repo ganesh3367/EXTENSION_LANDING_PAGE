@@ -1,17 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { useTheme } from '../hooks/useTheme';
-import { Menu, X, Rocket, LogIn, LayoutDashboard, Sun, Moon } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
+import { Sun, Moon } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const lastScrollY = useRef(0);
     const { currentUser, loading } = useAuth();
     const { theme, toggleTheme } = useTheme();
-    const location = useLocation();
     const { pathname } = useLocation();
 
     useEffect(() => {
@@ -20,11 +17,6 @@ const Navbar = () => {
 
             // Update background state
             setIsScrolled(currentScrollY > 50);
-
-            // The 'hidden' state logic is removed as per the instruction's implied changes.
-            // If it needs to be re-added, it should be done explicitly.
-
-            lastScrollY.current = currentScrollY;
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });

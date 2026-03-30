@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import React, { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import './Profile.css';
 import { Bell, Settings, User, Rocket, Mail, Calendar, Edit2, LogOut, LayoutDashboard } from 'lucide-react';
 
@@ -25,19 +25,20 @@ const myExtensions = [
 const Profile = () => {
   const { currentUser, userData, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('updates');
-
-  useEffect(() => {
-    console.log("Profile: Component mounted");
-    console.log("Profile: currentUser:", currentUser);
-    console.log("Profile: userData:", userData);
-  }, [currentUser, userData]);
+  const [logoutError, setLogoutError] = useState('');
 
   if (!currentUser) {
-    console.log("Profile: No currentUser, rendering null (should have been caught by PrivateRoute)");
     return null;
   }
 
-  console.log("Profile: Rendering content for:", currentUser.email);
+  async function handleLogout() {
+    setLogoutError('');
+    try {
+      await logout();
+    } catch {
+      setLogoutError('Sign out failed. Please try again.');
+    }
+  }
 
   return (
     <div className="profile-container">
@@ -89,10 +90,11 @@ const Profile = () => {
           </button>
         </nav>
 
-        <button className="logout-btn" onClick={logout}>
+        <button className="logout-btn" onClick={handleLogout}>
           <LogOut size={18} />
           <span>Sign Out</span>
         </button>
+        {logoutError && <p className="profile-error-text">{logoutError}</p>}
       </div>
 
       <main className="profile-content">
@@ -154,7 +156,7 @@ const Profile = () => {
                 </div>
                 <div className="detail-row">
                   <label>Member Since</label>
-                  <span>{currentUser.metadata?.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString() : 'Recently'}</span>
+                  <span>{currentUser.metadata?.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString() : 'N/A'}</span>
                 </div>
               </div>
               

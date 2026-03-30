@@ -5,39 +5,40 @@ import './FoldMarqueeSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const stripsData = [
+    {
+        id: 1,
+        text: ["HTML to React.", "HTML → React.", "Convert HTML."],
+        direction: -1
+    },
+    {
+        id: 2,
+        text: ["Clean JSX.", "Reusable Components.", "Production Ready."],
+        direction: 1
+    },
+    {
+        id: 3,
+        text: ["Save Hours.", "No Refactor.", "Zero Manual Work."],
+        direction: -1
+    },
+    {
+        id: 4,
+        text: ["Inside VS Code.", "One Command.", "Instant Output."],
+        direction: 1
+    }
+];
+
 const FoldMarqueeSection = () => {
     const sectionRef = useRef(null);
+    const containerRef = useRef(null);
     const stripsRef = useRef([]);
-
-    // Data for the 4 strips
-    const stripsData = [
-        {
-            id: 1,
-            text: ["HTML to React.", "HTML → React.", "Convert HTML."],
-            direction: -1 // Left
-        },
-        {
-            id: 2,
-            text: ["Clean JSX.", "Reusable Components.", "Production Ready."],
-            direction: 1 // Right
-        },
-        {
-            id: 3,
-            text: ["Save Hours.", "No Refactor.", "Zero Manual Work."],
-            direction: -1 // Left
-        },
-        {
-            id: 4,
-            text: ["Inside VS Code.", "One Command.", "Instant Output."],
-            direction: 1 // Right
-        }
-    ];
 
     useEffect(() => {
         const section = sectionRef.current;
+        const container = containerRef.current;
         const strips = stripsRef.current;
 
-        if (!section || strips.length === 0) return;
+        if (!section || !container || strips.length === 0) return;
 
         let ctx = gsap.context(() => {
             const tl = gsap.timeline({
@@ -45,9 +46,10 @@ const FoldMarqueeSection = () => {
                     trigger: section,
                     start: "top top",
                     end: "+=200%",
-                    pin: true,
+                    pin: container,
                     scrub: 1,
-                    anticipatePin: 1
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true
                 }
             });
 
@@ -100,7 +102,7 @@ const FoldMarqueeSection = () => {
 
     return (
         <section className="fold-marquee-section" ref={sectionRef}>
-            <div className="fold-marquee-container">
+            <div className="fold-marquee-container" ref={containerRef}>
                 {stripsData.map((data, index) => (
                     <div
                         key={data.id}
